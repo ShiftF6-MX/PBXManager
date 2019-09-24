@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import mx.shf6.pbxmanager.utilities.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import mx.shf6.maxitools.utilities.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import mx.shf6.pbxmanager.utilities.PTableColumn?>
+
+<AnchorPane styleClass="bodyPantallaEspera" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.shf6.pbxmanager.view.PantallaCDR">
+   <children>
+      <AnchorPane styleClass="bodyPantallaOverview" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+               <children>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/1x/BitacoraBoton.png" />
+                     </image>
+                  </ImageView>
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label styleClass="labelRobotoMedium16" text="Bitacora" />
+                        <Label styleClass="labelRobotoMedium12" text="Registro de llamadas entrantes y salientes" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" onMouseClicked="#cerrarPantalla" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/1x/CerrarPantallaIcono.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <VBox alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
+               <children>
+                  <TableView fx:id="tablaCDR" editable="true" maxHeight="1.7976931348623157E308" styleClass="tablaDatosGestor" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <PTableColumn fx:id="columnaFecha" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="DATE" />
+                        <PTableColumn fx:id="columnaClid" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="Clid" visible="false" />
+                        <PTableColumn fx:id="columnaSRC" minWidth="-1.0" percentageWidth="0.03" prefWidth="-1.0" text="SCR" />
+                        <PTableColumn fx:id="columnaDST" minWidth="-1.0" percentageWidth="0.07" prefWidth="-1.0" text="DST" />
+                        <PTableColumn fx:id="columnaDContext" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="DContect" visible="false" />
+                        <PTableColumn fx:id="columnaChannel" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="SCR CHANNEL" />
+                        <PTableColumn fx:id="columnaDSTChannel" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="DST CHANNEL" />
+                        <PTableColumn fx:id="columnaLastApp" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="LAST APP" visible="false" />
+                        <PTableColumn fx:id="columnaLastData" minWidth="-1.0" percentageWidth="0.12" prefWidth="-1.0" text="LAST DATA" />
+                        <PTableColumn fx:id="columnaDuration" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="DURATION" />
+                        <PTableColumn fx:id="columnaBillSec" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="BILL SEC" />
+                        <PTableColumn fx:id="columnaDisposition" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="DISPOSITION" />
+                        <PTableColumn fx:id="columnaAmaFlags" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="AmaFlags" visible="false" />
+                        <PTableColumn fx:id="columnaUniqueid" minWidth="-1.0" percentageWidth="0.08" prefWidth="-1.0" text="UNIQ ID" />
+                        <PTableColumn fx:id="columnaCnum" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="CNUM" />
+                        <PTableColumn fx:id="columnaCnam" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="CNAM" />
+                        <PTableColumn fx:id="columnaComentarios" minWidth="-1.0" percentageWidth="0.2" prefWidth="-1.0" text="COMMENTS" />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
