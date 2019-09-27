@@ -13,7 +13,7 @@ public class UsuarioDAO {
 
 	// METODO PARA AGREGAR UN USUARIO
 	public static final boolean createUsuario(Connection conexion, Usuario usuario) {
-		String consulta = "INSERT INTO ut_usuarios (Usuario, PIN, Extension, Status) VALUES (?, ?, ?, ?)";
+		String consulta = "INSERT INTO ut_usuarios (Usuario, PIN, Extension, Status) VALUES (?,AES_ENCRYPT(?, 'Nissan'), ?, ?)";
 		try {
 			PreparedStatement ps = (PreparedStatement) conexion.prepareStatement(consulta);
 			ps.setString(1, usuario.getUsuario());
