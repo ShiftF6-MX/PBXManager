@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.utilities.Notificacion;
+import mx.shf6.produccion.model.Cliente;
 
 public class UsuarioDAO {
 
@@ -99,4 +100,25 @@ public class UsuarioDAO {
 		} // FIN TRY/CATCH
 	}// FIN METODO
 
+	
+	//METODO PARA OBTENER UN REGISTRO POR LIKE
+	public static ArrayList<Usuario> readUsuarioLike(Connection connection, String like) {
+		ArrayList<Usuario> listLikeUsuarios= new ArrayList<Usuario>();
+		String consulta = "SELECT Sys_PK, Usuario, PIN, Extension, Status FROM ut_usuarios WHERE Usuario LIKE '%" + like + "%' OR Extension LIKE '%" + like + "%'";
+		try {
+			Statement sentencia = connection.createStatement();
+			ResultSet result = sentencia.executeQuery(consulta);
+			while (result.next()) {
+			Usuario usuario = new Usuario();
+				usuario.setSysPk(result.getInt(1));
+				usuario.setPin(result.getString(2));
+				usuario.setExtension(result.getString(3));
+				usuario.setStatus(result.getInt(4));
+				listLikeUsuarios.add(usuario);
+			}//FIN WHILE
+		} catch (SQLException ex) {
+			Notificacion.dialogoException(ex);
+		}//FIN TRY/CATCH
+		return listLikeUsuarios;
+	}//FIN METODO
 }
