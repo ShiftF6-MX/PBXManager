@@ -32,7 +32,7 @@ public class UsuarioDAO {
 	// METODO PARA OBTENER UN REGISTRO
 	public static Usuario readOneUsuario(Connection connection, int sysPK) {
 		Usuario usuario = new Usuario();
-		String consulta = "SELECT Sys_PK, Usuario, PIN, Extension, Status FROM ut_usuarios WHERE Sys_PK = " + sysPK;
+		String consulta = "SELECT Sys_PK, Usuario, AES_DECRYPT(PIN,'Nissan'), Extension, Status FROM ut_usuarios WHERE Sys_PK = " + sysPK;
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(consulta);
@@ -51,7 +51,7 @@ public class UsuarioDAO {
 	//METODO PARA OBTENER TODOS LOS USUARIOS
 	public static final ArrayList<Usuario> readTodosUsuarios(Connection conexion) {
 		ArrayList<Usuario> listaUsuario = new ArrayList<Usuario>();
-		String query = "SELECT Sys_PK, Usuario, PIN, Extension, Status FROM ut_usuarios ORDER BY Sys_PK";
+		String query = "SELECT Sys_PK, Usuario, AES_DECRYPT(PIN,'Nissan'), Extension, Status FROM ut_usuarios ORDER BY Sys_PK";
 		try {
 			Statement statement = conexion.createStatement();
 			ResultSet result = statement.executeQuery(query);
@@ -71,7 +71,7 @@ public class UsuarioDAO {
 
 	// METODO PARA ACTUALIZAR UN USUARIO
 	public static final boolean updateUsuario(Connection connection, Usuario usuario) {
-		String query = "UPDATE ut_usuarios SET Usuario = ?,PIN = ?, Extension = ?, Status = ? WHERE Sys_PK = ?";
+		String query = "UPDATE ut_usuarios SET Usuario = ?,PIN = AES_DECRYPT(?,'Nissan'), Extension = ?, Status = ? WHERE Sys_PK = ?";
 		try {
 			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 			ps.setString(1, usuario.getUsuario());
