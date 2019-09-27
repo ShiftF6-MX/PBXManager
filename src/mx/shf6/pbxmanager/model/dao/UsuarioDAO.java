@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.utilities.Notificacion;
-import mx.shf6.produccion.model.Cliente;
 
 public class UsuarioDAO {
 
@@ -49,6 +48,7 @@ public class UsuarioDAO {
 		return usuario;
 	}
 
+	//METODO PARA OBTENER TODOS LOS USUARIOS
 	public static final ArrayList<Usuario> readTodosUsuarios(Connection conexion) {
 		ArrayList<Usuario> listaUsuario = new ArrayList<Usuario>();
 		String query = "SELECT Sys_PK, Usuario, PIN, Extension, Status FROM ut_usuarios ORDER BY Sys_PK";
