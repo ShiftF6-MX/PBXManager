@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.sql.Connection;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,9 +22,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.utilities.ConnectionDB;
 import mx.shf6.pbxmanager.utilities.LeerArchivo;
@@ -32,7 +32,6 @@ import mx.shf6.pbxmanager.utilities.Notificacion;
 import mx.shf6.pbxmanager.view.DialogoIngresarBitacora;
 import mx.shf6.pbxmanager.view.DialogoUsuario;
 import mx.shf6.pbxmanager.view.PantallaCDR;
-import mx.shf6.pbxmanager.view.PantallaCabecera;
 import mx.shf6.pbxmanager.view.PantallaMenu;
 import mx.shf6.pbxmanager.view.PantallaUsuario;
 
@@ -40,19 +39,14 @@ public class MainApp extends Application {
 
 	//PROPIEDADES
 	private Connection conexion;
-	private ConnectionDB conexionBD;
-
-	//VARIABLES
-	private double xOffset = 0.0;
-	private double yOffset = 0.0;
+	private ConnectionDB conexionDB;
 
 	//ESCENARIOS DE SISTEMA
-	private Stage escenarioPrincipal;
-	private Stage escenarioSecundario;
+	private Stage escenarioUno;
+	private Stage escenarioDos;
 
-	//INTERFACES DEL SISTEMA
+	//PANTALLAS DEL SISTEMA
 	private BorderPane pantallaBase;
-	private AnchorPane pantallaCabecera;
 	private AnchorPane pantallaMenu;
 	private AnchorPane pantallaCDR;
 	private AnchorPane pantallaUsuario;
@@ -63,17 +57,15 @@ public class MainApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		cargarFuentes();
-		iniciarConexionBD();
-		configurarEscenarioPrincipal(primaryStage);
-		configurarEscenarioSecundario();
-		iniciarEscenarioPrincipal();
-		iniciarPantallaCabecera();
-		iniciarPantallaMenu();
+		this.loadFuentes();
+		this.configConexionBD();
+		this.configEscenarioUno(primaryStage);
+		this.configEscenarioDos();
+		this.initEscenarioUno();
+		this.openPantallaMenu();
 	}//FIN METODO
 
-	private void cargarFuentes() {
-		//INSTALACIÓN FUENTES
+	private void loadFuentes() {
 		Font.loadFont(MainApp.class.getResource("utilities/fonts/Roboto-Light.ttf").toExternalForm(), 10);
 		Font.loadFont(MainApp.class.getResource("utilities/fonts/Roboto-Regular.ttf").toExternalForm(), 10);
 		Font.loadFont(MainApp.class.getResource("utilities/fonts/Roboto-Medium.ttf").toExternalForm(), 10);
@@ -81,74 +73,72 @@ public class MainApp extends Application {
 		Font.loadFont(MainApp.class.getResource("utilities/fonts/Roboto-Black.ttf").toExternalForm(), 10);
 	}//FIN METODO
 
-	private void iniciarConexionBD() {
-		//INICIA CONCEXIÓN BASE DATOS
-		//this.conexionBD = new ConnectionDB("demomr5","192.168.0.216", "conn01", "Simons83Mx");
-		//this.conexionBD = new ConnectionDB("demomr5","25.64.166.16", "conn01", "Simons83Mx");
+	private void configConexionBD() {
 		LeerArchivo.leerArchivo();
-		this.conexionBD = new ConnectionDB(LeerArchivo.nameDB, LeerArchivo.hostDB, LeerArchivo.userDB, LeerArchivo.passwordDB);
-		this.conexion = conexionBD.conectarMySQL();
+		this.conexionDB = new ConnectionDB(LeerArchivo.nameDB, LeerArchivo.hostDB, LeerArchivo.userDB, LeerArchivo.passwordDB);
+		this.conexion = conexionDB.conectarMySQL();
 		if (this.conexion == null) {
 			Notificacion.dialogoAlerta(AlertType.ERROR, "Conectar base de datos", "Error al conectar con la base de datos");
 			System.exit(0);
 		}//FIN IF
 	}//FIN METODO
 
-	private void configurarEscenarioPrincipal(Stage primaryStage) {
-		//INICIA ESCENARIO PRINCIPAL
-		this.escenarioPrincipal = primaryStage;
-		this.escenarioPrincipal.setMaximized(true);
-		this.escenarioPrincipal.setResizable(true);
-		this.escenarioPrincipal.initStyle(StageStyle.TRANSPARENT);
-		this.escenarioPrincipal.setAlwaysOnTop(false);
+	private void configEscenarioUno(Stage escenarioUno) {
+		this.escenarioUno = escenarioUno;
+		this.escenarioUno.setTitle("PBXManager | Herramienta para la gestión de PBX Issabel");
+		this.escenarioUno.getIcons().add(new Image(MainApp.class.getResource("LogoKey.png").toString()));
+		this.escenarioUno.initStyle(StageStyle.DECORATED);
+		this.escenarioUno.setMaximized(true);
+		this.escenarioUno.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				boolean opcion = Notificacion.dialogoPreguntar("", "Estas a punto de salir del sistema...\n ¿Deseas cerrar la aplicación?");
+				if (opcion) {
+					conexionDB.terminarConexion(conexion);
+					Platform.exit();
+					System.exit(0);
+				} else
+					event.consume();
+			}//FIN METODO INTERNO
+			
+		});//FIN SENTENCIA
 	}//FIN METODO
 
-	public Stage getEscenarioPrincipal() {
-		return this.escenarioPrincipal;
+	public Stage getEscenarioUno() {
+		return this.escenarioUno;
 	}//FIN METODO
 	
-	private void configurarEscenarioSecundario() {
-		//INICIA ESCENARIO DIALOGOS
-		this.escenarioSecundario = new Stage();
-		this.escenarioSecundario.setResizable(false);
-		this.escenarioSecundario.setMaximized(false);
-		this.escenarioSecundario.initModality(Modality.WINDOW_MODAL);
-		this.escenarioSecundario.initStyle(StageStyle.TRANSPARENT);
-		this.escenarioSecundario.initOwner(this.escenarioPrincipal);
-	}//FIN METODO
-
-	public Stage getEscenarioSecundario() {
-		return this.escenarioSecundario;
-	}//FIN METODO
-
-	private void iniciarEscenarioPrincipal() {
+	public void initEscenarioUno() {
+		FXMLLoader cargadorFXML = new FXMLLoader();
+		cargadorFXML.setLocation(MainApp.class.getResource("view/PantallaBase.fxml"));
+		
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader();
-			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaBase.fxml"));
-			this.pantallaBase = (BorderPane) fxmlLoader.load();
-			Scene escenaPrincipal = new Scene(this.pantallaBase);
-			escenaPrincipal.setFill(Color.TRANSPARENT);
-			this.escenarioPrincipal.setScene(escenaPrincipal);
-			this.escenarioPrincipal.show();
-
-
-			//CENTRAR VENTANA EN PANTALLA
-			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-			this.escenarioPrincipal.setX(primaryScreenBounds.getMinX());
-			this.escenarioPrincipal.setY(primaryScreenBounds.getMinY());
-
-			this.escenarioPrincipal.setMaxWidth(primaryScreenBounds.getWidth());
-			this.escenarioPrincipal.setMinWidth(primaryScreenBounds.getWidth());
-
-			this.escenarioPrincipal.setMaxHeight(primaryScreenBounds.getHeight());
-			this.escenarioPrincipal.setMinHeight(primaryScreenBounds.getHeight());
-
-		} catch(IOException | IllegalStateException ex ) {
+			this.pantallaBase = (BorderPane) cargadorFXML.load();
+		} catch (IOException ex) {
 			Notificacion.dialogoException(ex);
 		}//FIN TRY/CATCH
+		
+		Scene escenaUno = new Scene(this.pantallaBase);
+		this.escenarioUno.setScene(escenaUno);
+		this.escenarioUno.show();
 	}//FIN METODO
 	
-	private Scene iniciarEscenarioSecundario(Parent parent) {
+	private void configEscenarioDos() {
+		//INICIA ESCENARIO DIALOGOS
+		this.escenarioDos = new Stage();
+		this.escenarioDos.setResizable(false);
+		this.escenarioDos.setMaximized(false);
+		this.escenarioDos.initModality(Modality.WINDOW_MODAL);
+		this.escenarioDos.initStyle(StageStyle.TRANSPARENT);
+		this.escenarioDos.initOwner(this.escenarioUno);
+	}//FIN METODO
+
+	public Stage getEscenarioDos() {
+		return this.escenarioDos;
+	}//FIN METODO
+	
+	private Scene initEscenarioDos(Parent parent) {
 		VBox marcoVentana = new VBox();
 		marcoVentana.getChildren().add(parent);
 		marcoVentana.setPadding(new Insets(10.0d));
@@ -159,24 +149,8 @@ public class MainApp extends Application {
 		escena.setFill(Color.TRANSPARENT);
 		return escena;
 	}//FIN METODO
-	
-	private void iniciarPantallaCabecera() {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader();
-			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaCabecera.fxml"));
-			this.pantallaCabecera = (AnchorPane) fxmlLoader.load();
-			this.pantallaBase.setTop(this.pantallaCabecera);
 
-			PantallaCabecera pantallaCabecera = fxmlLoader.getController();
-			pantallaCabecera.setMainApp(this);
-
-			this.moverPantalla();
-		} catch (IOException | IllegalStateException ex) {
-			Notificacion.dialogoException(ex);
-		}//FIN TRY/CATCH
-	}//FIN METODO
-
-	public void iniciarPantallaMenu() {
+	public void openPantallaMenu() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaMenu.fxml"));
@@ -191,7 +165,7 @@ public class MainApp extends Application {
 		}//FIN TRY/CATCH
 	}//FIN METODO
 
-	public void iniciarPantallaCDR() {
+	public void openPantallaCDR() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaCDR.fxml"));
@@ -207,7 +181,7 @@ public class MainApp extends Application {
 		}//FIN TRY-CATCH
 	}//FIN METODO
 	
-	public void iniciarPantallaUsuario() {
+	public void openPantallaUsuario() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaUsuario.fxml"));
@@ -222,32 +196,32 @@ public class MainApp extends Application {
 		}//FIN TRY/CATCH
 	}//FIN METODO
 	
-	public void iniciarDialogoIngresarBitacora() {
+	public void openDialogoIngresarBitacora() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(MainApp.class.getResource("view/DialogoIngresarBitacora.fxml"));
 			this.dialogoIngresarBitacora = (AnchorPane) fxmlLoader.load();
 
-			Scene escenaDialogoIngresarBitacora = this.iniciarEscenarioSecundario(this.dialogoIngresarBitacora);
-			this.escenarioSecundario.setScene(escenaDialogoIngresarBitacora);
+			Scene escenaDialogoIngresarBitacora = this.initEscenarioDos(this.dialogoIngresarBitacora);
+			this.escenarioDos.setScene(escenaDialogoIngresarBitacora);
 
 			DialogoIngresarBitacora dialogoIngresarBitacora = fxmlLoader.getController();
 			dialogoIngresarBitacora.setMainApp(this);
 
-			this.escenarioSecundario.showAndWait();
+			this.escenarioDos.showAndWait();
 		} catch (IOException | IllegalStateException ex) {
 			Notificacion.dialogoException(ex);
 		}//FIN TRY/CATCH
 	}//FIN METODO
 	
-	public void iniciarDialogoUsuario(Usuario usuario, int opcion) {
+	public void openDialogoUsuario(Usuario usuario, int opcion) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(MainApp.class.getResource("view/DialogoUsuario.fxml"));
 			this.dialogoUsuario = (AnchorPane) fxmlLoader.load();
 			
-			Scene escenaDialogoUsuario = this.iniciarEscenarioSecundario(this.dialogoUsuario);
-			this.escenarioSecundario.setScene(escenaDialogoUsuario);
+			Scene escenaDialogoUsuario = this.initEscenarioDos(this.dialogoUsuario);
+			this.escenarioDos.setScene(escenaDialogoUsuario);
 			
 			DialogoUsuario dialogoUsuario = fxmlLoader.getController();
 			dialogoUsuario.setMainApp(this, usuario, opcion);
@@ -265,35 +239,7 @@ public class MainApp extends Application {
 	}//FIN METODO
 
 	public void minimizar() {
-		this.escenarioPrincipal.setIconified(true);
+		this.escenarioUno.setIconified(true);
 	}//FIN METODO
 
-	private void moverPantalla() {
-		//SELECCIONAR PANTALLA PARA MOVER
-		this.pantallaCabecera.setOnMousePressed(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				xOffset = escenarioPrincipal.getX() - event.getScreenX();
-				yOffset = escenarioPrincipal.getY() - event.getScreenY();
-			}//FIN METODO
-		});//FIN MOUSEHANDLER
-
-		//MOVER VENTAN ARRASTRANDO
-		this.pantallaCabecera.setOnMouseDragged(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				escenarioPrincipal.setX(event.getScreenX() + xOffset);
-				escenarioPrincipal.setY(event.getScreenY() + yOffset);
-			}//FIN METODO
-		});//FIN MOUSEHANDLER
-	}//FIN METODO
-
-	@Override
-	public void stop() {
-		boolean opcion = Notificacion.dialogoPreguntar("", "Estas a punto de salir del sistema...\n ¿Deseas cerrar la aplicación?");
-		if (opcion) {
-			this.conexionBD.terminarConexion(this.getConnection());
-			System.exit(0);
-		}//FIN IF
-	}//FIN METODO
 }//FIN CLASE
