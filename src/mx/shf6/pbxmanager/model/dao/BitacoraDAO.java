@@ -1,26 +1,29 @@
 package mx.shf6.pbxmanager.model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import mx.shf6.pbxmanager.model.CDR;
+import mx.shf6.pbxmanager.model.Bitacora;
 import mx.shf6.pbxmanager.utilities.Notificacion;
 
-public class CDRDao {
+public class BitacoraDAO {
 
 	//METODO PARA LEER LOS DATOS DE LA BD
-	public static ArrayList<CDR> leerTodos(Connection conexion){
-		ArrayList<CDR> listaCDR = new ArrayList<CDR>();
-		String consulta = " SELECT calldate, clid, src, dst, dcontext, channel, dstchannel, lastapp, lastdata, duration, billsec, disposition, amaflags, uniqueid, cnum, cnam, comentario FROM cdr";
+	public static ArrayList<Bitacora> leerTodos(Connection conexion, String status, Date fechaInicio, Date fechaFinal, String cdrOrigen, String numero){
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		ArrayList<Bitacora> listaCDR = new ArrayList<Bitacora>();
+		String consulta = " SELECT calldate, clid, src, dst, dcontext, channel, dstchannel, lastapp, lastdata, duration, billsec, disposition, amaflags, uniqueid, cnum, cnam, comentario FROM cdr WHERE disposition LIKE'%" + status + "%' AND calldate BETWEEN '" + simpleDateFormat.format(fechaInicio) +"' AND '"+ simpleDateFormat.format(fechaFinal) +"' AND src LIKE '%" + cdrOrigen + "%' AND dst LIKE '%" + numero + "%'";
 		try {
 			Statement st = conexion.createStatement();
 			ResultSet rs = st.executeQuery(consulta);		
 			while (rs.next()) {				
-				CDR cdr = new CDR();
+				Bitacora cdr = new Bitacora();
 				cdr.setCalldate(rs.getDate(1));
 				cdr.setClid(rs.getString(2));
 				cdr.setsrc(rs.getString(3));
@@ -47,7 +50,7 @@ public class CDRDao {
 	}//FIN METODO
 	
 	//METODO PARA MODIFICAR LOS DATOS DE LA BD
-	public static final boolean update(Connection connection, CDR cdr) {
+	public static final boolean update(Connection connection, Bitacora cdr) {
 		String query = "UPDATE cdr SET comentario = ? WHERE uniqueid = ? ";
 		try {
 			PreparedStatement sentenciaPreparada = connection.prepareStatement(query);
