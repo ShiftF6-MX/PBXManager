@@ -64,6 +64,7 @@ public class MainApp extends Application {
 		this.configEscenarioDos();
 		this.initEscenarioUno();
 		this.openPantallaMenu();
+		this.openDialogoIngresarBitacora();
 	}//FIN METODO
 
 	private void loadFuentes() {
@@ -178,7 +179,7 @@ public class MainApp extends Application {
 		}//FIN TRY/CATCH
 	}//FIN METODO
 
-	public void openPantallaCDR() {
+	public void openPantallaCDR(String cdrOrigen) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaBitacora.fxml"));
@@ -187,7 +188,7 @@ public class MainApp extends Application {
 			this.pantallaBase.setCenter(this.pantallaCDR);
 			
 			PantallaBitacora pantallaCDR = fxmlLoader.getController();
-			pantallaCDR.setMainApp(this);
+			pantallaCDR.setMainApp(this, cdrOrigen);
 			pantallaCDR.start();
 		}catch(IOException | IllegalStateException ex) {
 			Notificacion.dialogoException(ex);
