@@ -1,9 +1,12 @@
 package mx.shf6.pbxmanager.model;
 
+import java.sql.Connection;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import mx.shf6.pbxmanager.model.dao.GrupoUsuarioDAO;
 
 public class Usuario {
 
@@ -13,6 +16,7 @@ public class Usuario {
 	private StringProperty pin;
 	private StringProperty extension;
 	private ObjectProperty<Integer> status;
+	private ObjectProperty<Integer> grupoUsuarioFK;
 	//CONSTANTES
 	public static final int BLOQUEADO = 0;
 	public static final int ACTIVO = 1;
@@ -20,28 +24,29 @@ public class Usuario {
 
 	//CONSTRUCTOR SIN PARAMETROS
 	public Usuario() {
-		this(0, "", "", "", 0);
+		this(-1, "", "", "", -1, -1);
 	}//FIN CONSTRUCTOR
 
 	//CONSTRUCTOR CON PARAMETROS
-	public Usuario(int sysPK, String usuario, String pin, String extension, int status) {
+	public Usuario(int sysPK, String usuario, String pin, String extension, int status, int grupoUsuarioFK) {
 		this.sysPK = new SimpleObjectProperty<Integer>(sysPK);
 		this.usuario = new SimpleStringProperty(usuario);
 		this.pin = new SimpleStringProperty(pin);
 		this.extension = new SimpleStringProperty(extension);
 		this.status = new SimpleObjectProperty<Integer>(status);
+		this.grupoUsuarioFK = new SimpleObjectProperty<Integer>(grupoUsuarioFK);
 	}//FIN CONSTRUCTOR
 
 	//METODOS PARA ACCESO A "SYSPK"
-	public void setSysPk(Integer sysPk) {
-		this.sysPK.set(sysPk);
+	public void setSysPK(Integer sysPK) {
+		this.sysPK.set(sysPK);
 	}//FIN METODO
 
-	public Integer getSysPk() {
+	public Integer getSysPK() {
 		return this.sysPK.get();
 	}//FIN METODO
 
-	public ObjectProperty<Integer> sysPkProperty() {
+	public ObjectProperty<Integer> sysPKProperty() {
 		return this.sysPK;
 	}//FIN METODO
 	//FINT METODOS "SYSPK"
@@ -137,5 +142,21 @@ public class Usuario {
 		return new SimpleStringProperty();
 	}//FIN METODO
 	//FIN METODO "STATUS"
+	
+	public void setGrupoUsuarioFK(int grupoUsuarioFK) {
+		this.grupoUsuarioFK.set(grupoUsuarioFK);
+	}//FIN METODO
+	
+	public int getGrupoUsuarioFK() {
+		return this.grupoUsuarioFK.get();
+	}//FIN METODO
+	
+	public ObjectProperty<Integer> grupoUsuarioFKProperty(){
+		return this.grupoUsuarioFK;
+	}//FIN METODO
+	
+	public GrupoUsuario getGrupoUsuario(Connection connection) {
+		return GrupoUsuarioDAO.readPorSysPK(connection, this.getGrupoUsuarioFK());
+	}//FIN METODO
 	
 }//FIN CLASE
