@@ -105,7 +105,6 @@ public class PantallaCDR  extends Thread{
 		this.columnaComentarios.setCellValueFactory(cellData -> cellData.getValue().comentarioProperty());
 	}//FIN METODO
 	
-	
 	private void actualizarTabla() {
 		//this.tablaCDR.setItems(null);
 		this.listaCDR.clear();
@@ -113,8 +112,8 @@ public class PantallaCDR  extends Thread{
 		this.tablaCDR.setItems(FXCollections.observableArrayList(listaCDR));
 	}// FIN METODO
 	
-	@FXML
-	private void cerrarPantalla() {
-		this.mainApp.iniciarPantallaMenu();
+	@FXML private void cerrarPantalla() {
+		this.mainApp.openPantallaMenu();
 	}//FIN METODO
+	
 }//FIN CLASE
