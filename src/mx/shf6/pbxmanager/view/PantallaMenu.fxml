@@ -13,7 +13,7 @@
    <children>
       <FlowPane AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
-            <VBox alignment="CENTER" onMouseClicked="#manejadorBotonBitacoraLlamadas" prefHeight="180.0" prefWidth="150.0" styleClass="dashBoardCardGray">
+            <VBox alignment="CENTER" onMouseClicked="#manejadorBotonBitacoraLlamadas" prefHeight="180.0" prefWidth="150.0" styleClass="vBox-Gray">
                <children>
                   <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -33,9 +33,9 @@
             </VBox>
          </children>
       </FlowPane>
-      <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <image>
-            <Image url="@images/1x/LogoNissan.png" />
+            <Image url="@images/1x/NissanLogo.png" />
          </image>
       </ImageView>
    </children>
