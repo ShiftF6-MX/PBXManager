@@ -25,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.utilities.ConnectionDB;
 import mx.shf6.pbxmanager.utilities.LeerArchivo;
 import mx.shf6.pbxmanager.utilities.Notificacion;
@@ -39,6 +40,7 @@ public class MainApp extends Application {
 	private Connection conexion;
 	private ConnectionDB conexionBD;
 	public String nombreImpresora;
+	private Usuario usuario;
 
 	//VARIABLES
 	private double xOffset = 0.0;
@@ -232,6 +234,15 @@ public class MainApp extends Application {
 	public void setNombreImpresora(String nombreImpresora) {
 		this.nombreImpresora = nombreImpresora;
 	}
+	
+	//METODOS DE ACCESO USUARIO
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}//FIN METODO
+
+	public Usuario getUsuario() {
+		return this.usuario;
+	}//FIN METODO
 
 	public static void main(String[] args) {
 		launch(args);
