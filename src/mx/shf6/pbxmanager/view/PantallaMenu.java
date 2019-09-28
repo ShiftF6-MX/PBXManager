@@ -22,7 +22,11 @@ public class PantallaMenu {
 	
 	//MANEJADORES COMPONENTES	
 	@FXML private void manejadorBotonBitacoraLlamadas() {
-		this.mainApp.openDialogoIngresarBitacora();
+		this.mainApp.openPantallaCDR(this.mainApp.getUsuario().getExtension());
+	}//FIN METODO
+	
+	@FXML private void manejadorBotonUsuarios() {
+		this.mainApp.openPantallaUsuario();
 	}//FIN METODO
 	
 }//FIN CLASE
