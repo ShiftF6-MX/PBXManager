@@ -40,6 +40,7 @@ public class MainApp extends Application {
 	//PROPIEDADES
 	private Connection conexion;
 	private ConnectionDB conexionDB;
+	private Usuario usuario;
 
 	//ESCENARIOS DE SISTEMA
 	private Stage escenarioUno;
@@ -81,6 +82,18 @@ public class MainApp extends Application {
 			Notificacion.dialogoAlerta(AlertType.ERROR, "Conectar base de datos", "Error al conectar con la base de datos");
 			System.exit(0);
 		}//FIN IF
+	}//FIN METODO	
+
+	public Connection getConnection() {
+		return this.conexion;
+	}//FIN METODO
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}//FIN METODO
+	
+	public Usuario getUsuario() {
+		return this.usuario;
 	}//FIN METODO
 
 	private void configEscenarioUno(Stage escenarioUno) {
@@ -230,16 +243,8 @@ public class MainApp extends Application {
 		}//FIN TRY/CATCH
 	}//FIN METODO
 
-	public Connection getConnection() {
-		return this.conexion;
-	}//FIN METODO
-
 	public static void main(String[] args) {
 		launch(args);
-	}//FIN METODO
-
-	public void minimizar() {
-		this.escenarioUno.setIconified(true);
 	}//FIN METODO
 
 }//FIN CLASE
