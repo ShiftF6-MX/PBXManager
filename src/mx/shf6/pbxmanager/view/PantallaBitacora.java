@@ -15,7 +15,7 @@ import mx.shf6.pbxmanager.utilities.Notificacion;
 import mx.shf6.pbxmanager.utilities.PTableColumn;
 
 
-public class PantallaCDR  extends Thread{
+public class PantallaBitacora  extends Thread{
 	
 	//PROPIEDADES
 	private MainApp mainApp;

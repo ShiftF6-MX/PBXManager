@@ -31,7 +31,7 @@ import mx.shf6.pbxmanager.utilities.LeerArchivo;
 import mx.shf6.pbxmanager.utilities.Notificacion;
 import mx.shf6.pbxmanager.view.DialogoIngresarBitacora;
 import mx.shf6.pbxmanager.view.DialogoUsuario;
-import mx.shf6.pbxmanager.view.PantallaCDR;
+import mx.shf6.pbxmanager.view.PantallaBitacora;
 import mx.shf6.pbxmanager.view.PantallaMenu;
 import mx.shf6.pbxmanager.view.PantallaUsuario;
 
@@ -181,12 +181,12 @@ public class MainApp extends Application {
 	public void openPantallaCDR() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
-			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaCDR.fxml"));
+			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaBitacora.fxml"));
 			this.pantallaCDR = (AnchorPane) fxmlLoader.load();
 			this.pantallaBase.setCenter(null);
 			this.pantallaBase.setCenter(this.pantallaCDR);
 			
-			PantallaCDR pantallaCDR = fxmlLoader.getController();
+			PantallaBitacora pantallaCDR = fxmlLoader.getController();
 			pantallaCDR.setMainApp(this);
 			pantallaCDR.start();
 		}catch(IOException | IllegalStateException ex) {

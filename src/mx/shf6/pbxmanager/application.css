@@ -60,6 +60,14 @@
 	-fx-font-size: 18px;
 }
 
+/* VBOX */
+.vBox-Gray {
+	-fx-background-color: #4D4D4D;
+}
+.vBox-Gray:hover {
+	-fx-background-color: #404040;
+}
+
 /* CSS PARA PANTALLA SESION */
 .bodyPantallaSesion {
 	-fx-background-color: transparent;
