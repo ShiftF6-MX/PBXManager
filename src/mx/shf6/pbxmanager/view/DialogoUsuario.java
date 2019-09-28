@@ -2,8 +2,6 @@ package mx.shf6.pbxmanager.view;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -203,6 +201,6 @@ public class DialogoUsuario {
 
 	//BOTON CERRAR
 	@FXML private void manejadorBotonCerrar() {
-		this.mainApp.getEscenarioDialogos().close();
+		this.mainApp.getEscenarioDos().close();
 	}//FIN METODO
 }//FIN CLASE

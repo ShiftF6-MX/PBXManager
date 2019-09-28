@@ -2,7 +2,6 @@ package mx.shf6.pbxmanager.view;
 
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
@@ -154,6 +153,7 @@ public class PantallaUsuario {
 		            			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		            		
 		            	});//FIN LISTENER
 		            	
+		            	
 		            	botonEditar.setOnAction(event -> {
 		            		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "uUsuario")) { 
 		            			usuario = getTableView().getItems().get(getIndex());
@@ -184,11 +184,11 @@ public class PantallaUsuario {
 	}//FIN METODO
 	
 	private void verUsuario(Usuario usuario) {
-		this.mainApp.iniciarDialogoUsuario(usuario, DialogoUsuario.VER);
+		this.mainApp.openDialogoUsuario(usuario, DialogoUsuario.VER);
 	}//FIN METODO
 	
 	private void modificarUsuario(Usuario usuario) {
-		this.mainApp.iniciarDialogoUsuario(usuario, DialogoUsuario.EDITAR);
+		this.mainApp.openDialogoUsuario(usuario, DialogoUsuario.EDITAR);
 		this.actualizarTabla();
 	}//FIN METODO
 	
@@ -208,7 +208,7 @@ public class PantallaUsuario {
 	}//FIN METODO
 	
 	@FXML private void manejadorBotonCrear() {
-		this.mainApp.iniciarDialogoUsuario(usuario, DialogoUsuario.CREAR);
+		this.mainApp.openDialogoUsuario(usuario, DialogoUsuario.CREAR);
 		this.actualizarTabla();
 	}//FIN METODO
 	
