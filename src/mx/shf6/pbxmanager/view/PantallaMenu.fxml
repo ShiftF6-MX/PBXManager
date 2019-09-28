@@ -11,13 +11,13 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bodyPantallaBase" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.shf6.pbxmanager.view.PantallaMenu">
    <children>
-      <FlowPane AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <FlowPane hgap="10.0" vgap="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
             <VBox alignment="CENTER" onMouseClicked="#manejadorBotonBitacoraLlamadas" prefHeight="180.0" prefWidth="150.0" styleClass="vBox-Gray">
                <children>
                   <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/1x/BitacoraBoton.png" />
+                        <Image url="@images/1x/BitacoraIcono.png" />
                      </image>
                   </ImageView>
                   <Label styleClass="labelRobotoMedium14" text="Bitacora" textFill="#ffffffd9">
@@ -26,6 +26,24 @@
                      </VBox.margin>
                   </Label>
                   <Label styleClass="labelRobotoMedium12" text="Registro de llamadas" textFill="#ffffffd9" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </VBox>
+            <VBox alignment="CENTER" onMouseClicked="#manejadorBotonUsuarios" prefHeight="180.0" prefWidth="150.0" styleClass="vBox-Gray">
+               <children>
+                  <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/1x/UsuariosIcono.png" />
+                     </image>
+                  </ImageView>
+                  <Label styleClass="labelRobotoMedium14" text="Usuarios" textFill="#ffffffd9">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="labelRobotoMedium12" text="Control de accesos" textFill="#ffffffd9" />
                </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
