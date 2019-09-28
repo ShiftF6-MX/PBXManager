@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import mx.shf6.pbxmanager.MainApp;
+import mx.shf6.pbxmanager.model.Usuario;
 
 public class DialogoIngresarBitacora {
 
@@ -31,7 +32,11 @@ public class DialogoIngresarBitacora {
 	
 	//MANEJADORES COMPONENTES	
 	@FXML private void vmanejadorBotonAceptar() {
-		this.mainApp.openPantallaCDR();
+		Usuario usuario = new Usuario();
+		usuario.setUsuario(campoTextoNombre.getText());
+		usuario.setPin(campoTextoPIN.getText());
+		usuario.setExtension(campoTextoExtension.getText());
+		this.mainApp.setUsuario(usuario);
 		this.mainApp.getEscenarioDos().close();
 	}//FIN METODO
 	
