@@ -18,7 +18,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                <children>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/1x/BitacoraBoton.png" />
                      </image>
@@ -34,13 +34,67 @@
                   </VBox>
                   <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" onMouseClicked="#cerrarPantalla" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/1x/CerrarPantallaIcono.png" />
-                           </image>
+                        <MenuButton fx:id="botonMenuStatus" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" styleClass="campoBuscador">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </MenuButton>
+                        <DatePicker fx:id="datePickerFechaInicio" prefHeight="30.0" promptText="Fecha inicial">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                        <DatePicker fx:id="datePickerFechaFinal" prefHeight="30.0" promptText="Fecha final">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                        <TextField fx:id="campoTextoBuscar" prefHeight="30.0" prefWidth="200.0" promptText="Buscar" styleClass="campoBuscador">
+                           <font>
+                              <Font name="Roboto" size="12.0" />
+                           </font>
+                        </TextField>
+                        <HBox alignment="CENTER" fillHeight="false" maxHeight="30.0" maxWidth="30.0" onMouseClicked="#manejadorBotonBuscar" prefHeight="30.0" prefWidth="30.0" styleClass="campoBuscador">
+                           <children>
+                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../EntregasParciales/src/mx/shf6/maxitools/view/images/1x/BuscarIcon.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </HBox>
+                        <Separator maxHeight="30.0" orientation="VERTICAL" prefHeight="30.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Separator>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#manejadorBotonActualizar" pickOnBounds="true" preserveRatio="true">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <image>
+                              <Image url="@../../../../../../MaxiProduction/src/mx/shf6/maxiproduction/view/images/icons/1x/ActualizarPantallaIcono.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#manejadorBotonCerrar" pickOnBounds="true" preserveRatio="true">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <image>
+                              <Image url="@../../../../../../MaxiProduction/src/mx/shf6/maxiproduction/view/images/icons/1x/CerrarPantallaIcono.png" />
+                           </image>
                         </ImageView>
                      </children>
                   </HBox>
@@ -48,25 +102,25 @@
             </HBox>
             <VBox alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
                <children>
-                  <TableView fx:id="tablaCDR" editable="true" maxHeight="1.7976931348623157E308" styleClass="tablaDatosGestor" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tablaBitacora" editable="true" maxHeight="1.7976931348623157E308" styleClass="tablaDatosGestor" VBox.vgrow="ALWAYS">
                      <columns>
-                        <PTableColumn fx:id="columnaFecha" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="DATE" />
+                        <PTableColumn fx:id="columnaFecha" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="Fecha" />
                         <PTableColumn fx:id="columnaClid" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="Clid" visible="false" />
-                        <PTableColumn fx:id="columnaSRC" minWidth="-1.0" percentageWidth="0.03" prefWidth="-1.0" text="SCR" />
-                        <PTableColumn fx:id="columnaDST" minWidth="-1.0" percentageWidth="0.07" prefWidth="-1.0" text="DST" />
+                        <PTableColumn fx:id="columnaSRC" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="Origen" />
+                        <PTableColumn fx:id="columnaCnam" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="Usuario" />
+                        <PTableColumn fx:id="columnaDST" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="Destino" />
                         <PTableColumn fx:id="columnaDContext" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="DContect" visible="false" />
-                        <PTableColumn fx:id="columnaChannel" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="SCR CHANNEL" />
-                        <PTableColumn fx:id="columnaDSTChannel" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="DST CHANNEL" />
+                        <PTableColumn fx:id="columnaChannel" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="SCR CHANNEL" visible="false" />
+                        <PTableColumn fx:id="columnaDSTChannel" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="DST CHANNEL" visible="false" />
                         <PTableColumn fx:id="columnaLastApp" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="LAST APP" visible="false" />
-                        <PTableColumn fx:id="columnaLastData" minWidth="-1.0" percentageWidth="0.12" prefWidth="-1.0" text="LAST DATA" />
-                        <PTableColumn fx:id="columnaDuration" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="DURATION" />
-                        <PTableColumn fx:id="columnaBillSec" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="BILL SEC" />
-                        <PTableColumn fx:id="columnaDisposition" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="DISPOSITION" />
+                        <PTableColumn fx:id="columnaLastData" minWidth="-1.0" percentageWidth="0.12" prefWidth="-1.0" text="LAST DATA" visible="false" />
+                        <PTableColumn fx:id="columnaDuration" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="Tiempo (seg)" />
+                        <PTableColumn fx:id="columnaBillSec" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="BILL SEC" visible="false" />
+                        <PTableColumn fx:id="columnaDisposition" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="Status" />
                         <PTableColumn fx:id="columnaAmaFlags" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="AmaFlags" visible="false" />
-                        <PTableColumn fx:id="columnaUniqueid" minWidth="-1.0" percentageWidth="0.08" prefWidth="-1.0" text="UNIQ ID" />
-                        <PTableColumn fx:id="columnaCnum" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="CNUM" />
-                        <PTableColumn fx:id="columnaCnam" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="CNAM" />
-                        <PTableColumn fx:id="columnaComentarios" minWidth="-1.0" percentageWidth="0.2" prefWidth="-1.0" text="COMMENTS" />
+                        <PTableColumn fx:id="columnaUniqueid" minWidth="-1.0" percentageWidth="0.1" prefWidth="-1.0" text="UNIQ ID" />
+                        <PTableColumn fx:id="columnaCnum" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="CNUM" visible="false" />
+                        <PTableColumn fx:id="columnaComentarios" minWidth="-1.0" percentageWidth="0.4" prefWidth="-1.0" text="Comentarios" />
                      </columns>
                   </TableView>
                </children>
