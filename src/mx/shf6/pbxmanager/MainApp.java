@@ -30,17 +30,17 @@ import mx.shf6.pbxmanager.utilities.ConnectionDB;
 import mx.shf6.pbxmanager.utilities.LeerArchivo;
 import mx.shf6.pbxmanager.utilities.Notificacion;
 import mx.shf6.pbxmanager.view.DialogoIngresarBitacora;
+import mx.shf6.pbxmanager.view.DialogoUsuario;
 import mx.shf6.pbxmanager.view.PantallaCDR;
 import mx.shf6.pbxmanager.view.PantallaCabecera;
 import mx.shf6.pbxmanager.view.PantallaMenu;
+import mx.shf6.pbxmanager.view.PantallaUsuario;
 
 public class MainApp extends Application {
 
 	//PROPIEDADES
 	private Connection conexion;
 	private ConnectionDB conexionBD;
-	public String nombreImpresora;
-	private Usuario usuario;
 
 	//VARIABLES
 	private double xOffset = 0.0;
@@ -55,9 +55,11 @@ public class MainApp extends Application {
 	private AnchorPane pantallaCabecera;
 	private AnchorPane pantallaMenu;
 	private AnchorPane pantallaCDR;
+	private AnchorPane pantallaUsuario;
 
 	//DIALOGOS DEL SISTEMA
 	private AnchorPane dialogoIngresarBitacora;
+	private AnchorPane dialogoUsuario;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -205,6 +207,21 @@ public class MainApp extends Application {
 		}//FIN TRY-CATCH
 	}//FIN METODO
 	
+	public void iniciarPantallaUsuario() {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			fxmlLoader.setLocation(MainApp.class.getResource("view/PantallaUsuario.fxml"));
+			this.pantallaUsuario = (AnchorPane) fxmlLoader.load();
+			this.pantallaBase.setCenter(null);
+			this.pantallaBase.setCenter(this.pantallaUsuario);
+			
+			PantallaUsuario pantallaUsuario = fxmlLoader.getController();
+			pantallaUsuario.setMainApp(this);
+		} catch (IOException | IllegalStateException ex) {
+			Notificacion.dialogoException(ex);
+		}//FIN TRY/CATCH
+	}//FIN METODO
+	
 	public void iniciarDialogoIngresarBitacora() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
@@ -222,26 +239,25 @@ public class MainApp extends Application {
 			Notificacion.dialogoException(ex);
 		}//FIN TRY/CATCH
 	}//FIN METODO
+	
+	public void iniciarDialogoUsuario(Usuario usuario, int opcion) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			fxmlLoader.setLocation(MainApp.class.getResource("view/DialogoUsuario.fxml"));
+			this.dialogoUsuario = (AnchorPane) fxmlLoader.load();
+			
+			Scene escenaDialogoUsuario = this.iniciarEscenarioSecundario(this.dialogoUsuario);
+			this.escenarioSecundario.setScene(escenaDialogoUsuario);
+			
+			DialogoUsuario dialogoUsuario = fxmlLoader.getController();
+			dialogoUsuario.setMainApp(this, usuario, opcion);
+		} catch (IOException | IllegalStateException ex) {
+			Notificacion.dialogoException(ex);
+		}//FIN TRY/CATCH
+	}//FIN METODO
 
 	public Connection getConnection() {
 		return this.conexion;
-	}//FIN METODO
-
-	public String getNombreImpresora() {
-		return nombreImpresora;
-	}
-
-	public void setNombreImpresora(String nombreImpresora) {
-		this.nombreImpresora = nombreImpresora;
-	}
-	
-	//METODOS DE ACCESO USUARIO
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}//FIN METODO
-
-	public Usuario getUsuario() {
-		return this.usuario;
 	}//FIN METODO
 
 	public static void main(String[] args) {
