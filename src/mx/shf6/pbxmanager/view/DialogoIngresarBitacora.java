@@ -31,12 +31,12 @@ public class DialogoIngresarBitacora {
 	
 	//MANEJADORES COMPONENTES	
 	@FXML private void vmanejadorBotonAceptar() {
-		this.mainApp.iniciarPantallaCDR();
-		this.mainApp.getEscenarioSecundario().close();
+		this.mainApp.openPantallaCDR();
+		this.mainApp.getEscenarioDos().close();
 	}//FIN METODO
 	
 	@FXML private void manejadorBotonCerrar() {
-		this.mainApp.getEscenarioSecundario().close();
+		this.mainApp.getEscenarioDos().close();
 	}//FIN METODO
 	
 }//FIN CLASE
