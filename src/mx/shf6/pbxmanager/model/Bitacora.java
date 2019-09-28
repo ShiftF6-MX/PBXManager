@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class CDR {
+public class Bitacora {
 	
 	//PROPIEDADES
 	private ObjectProperty<Date> callDate;
@@ -34,14 +34,19 @@ public class CDR {
 	private StringProperty did;
 	private StringProperty comentarios; //CAMPO COMENTARIOS. EMMANUEL OSTRIA 03/08/2019
 	
+	//CONSTANTES
+	public static final String CONTESTADO = "ANSWERED";
+	public static final String NO_CONTESTADO = "NO ANSWER";
+	public static final String OCUPADO = "BUSY";
+	
 	//CONSTRUCTOR VACIO
 	//SE INICIALIZA LA PROPIEDAD COMENTARIOS. EMMANUEL OSTRIA 03/08/2019
-	public CDR() {
+	public Bitacora() {
 		this(new Date(System.currentTimeMillis())," "," "," "," "," "," "," "," ",0, 0," ",0," "," "," "," "," "," "," ", " "," "," ","");
 	}//FIN COSTRUCTOR
 
 	//CONSTRUCTOR
-	public CDR(Date callDate, String clid, String src, String dst,
+	public Bitacora(Date callDate, String clid, String src, String dst,
 			String dcontext, String channel, String dstchannel, String lastapp,
 			String lastdata, int duration, int billsec,
 			String disposition, int amaflags, String accountCode,
