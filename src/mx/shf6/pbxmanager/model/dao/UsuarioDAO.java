@@ -66,10 +66,11 @@ public class UsuarioDAO {
 			while (result.next()) {
 				Usuario usuario = new Usuario();
 				usuario.setSysPK(result.getInt(1));
-				usuario.setPin(result.getString(2));
-				usuario.setExtension(result.getString(3));
-				usuario.setStatus(result.getInt(4));
-				usuario.setGrupoUsuarioFK(result.getInt(5));
+				usuario.setUsuario(result.getString(2));
+				usuario.setPin(result.getString(3));
+				usuario.setExtension(result.getString(4));
+				usuario.setStatus(result.getInt(5));
+				usuario.setGrupoUsuarioFK(result.getInt(6));
 				listaUsuario.add(usuario);
 			} // FIN WHILE
 		} catch (SQLException ex) {

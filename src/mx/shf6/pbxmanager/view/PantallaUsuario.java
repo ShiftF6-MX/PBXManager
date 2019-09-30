@@ -28,9 +28,10 @@ import javafx.util.Callback;
 import mx.shf6.pbxmanager.MainApp;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.model.dao.UsuarioDAO;
+import mx.shf6.pbxmanager.utilities.Notificacion;
+import mx.shf6.pbxmanager.utilities.PTableColumn;
 import mx.shf6.pbxmanager.model.dao.Seguridad;
-import mx.shf6.utilities.Notificacion;
-import mx.shf6.utilities.PTableColumn;
+
 
 public class PantallaUsuario {
 	
@@ -45,6 +46,7 @@ public class PantallaUsuario {
 	
 	//COMPONENTES INTERFAZ
 	@FXML private TableView<Usuario> tablaUsuario;
+	@FXML private PTableColumn<Usuario, Integer> columnaID;
 	@FXML private PTableColumn<Usuario, String> columnaUsuario;
 	@FXML private PTableColumn<Usuario, String> columnaExtension;
 	@FXML private PTableColumn<Usuario, String> columnaStatus;
@@ -55,7 +57,6 @@ public class PantallaUsuario {
 	@FXML private void initialize() {
 		this.listaUsuarios = new ArrayList<Usuario>();
 		this.usuario = new Usuario();
-		this.iniciarComponentes();
 	}//FIN METODO
 
 	public void setMainApp(MainApp mainApp) {
@@ -63,6 +64,7 @@ public class PantallaUsuario {
 		this.connection = this.mainApp.getConnection();
 		this.inicializarTabla();
 		this.actualizarTabla();
+		this.iniciarComponentes();
 	}//FIN METODO
 	
 	private void iniciarComponentes() {
@@ -76,6 +78,7 @@ public class PantallaUsuario {
 	}//FIN METODO
 	
 	private void inicializarTabla() {
+		this.columnaID.setCellValueFactory(cellData -> cellData.getValue().sysPKProperty());
 		this.columnaUsuario.setCellValueFactory(cellData -> cellData.getValue().usuarioProperty());
 		this.columnaExtension.setCellValueFactory(cellData -> cellData.getValue().extensionProperty());
 		this.columnaStatus.setCellValueFactory(cellData -> cellData.getValue().descripcionStatusProperty());
@@ -110,7 +113,7 @@ public class PantallaUsuario {
 		        //PARA MOSTRAR LOS DIALOGOS DE INSTITUCION
 		        @Override
 		        public void updateItem(String item, boolean empty) {
-		        	botonVer.setGraphic(new ImageView(new Image(MainApp.class.getResourceAsStream("view/images/1x/ViewIcon.png"))));
+		        	botonVer.setGraphic(new ImageView(new Image(MainApp.class.getResourceAsStream("view/images/1x/VerIcono.png"))));
 		        	botonVer.setPrefSize(18.0, 18.0);
 		        	botonVer.setPadding(Insets.EMPTY);
 		        	botonVer.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -126,7 +129,7 @@ public class PantallaUsuario {
 		        	botonEditar.setCursor(Cursor.HAND);
 		        	botonEditar.setTooltip(new Tooltip("Editar cliente"));
 		        	
-		        	botonEliminar.setGraphic(new ImageView(new Image(MainApp.class.getResourceAsStream("view/images/1x/RemoveIcon.png"))));
+		        	botonEliminar.setGraphic(new ImageView(new Image(MainApp.class.getResourceAsStream("view/images/1x/EliminarIcono.png"))));
 		        	botonEliminar.setPrefSize(16.0, 16.0);
 		        	botonEliminar.setPadding(Insets.EMPTY);
 		        	botonEliminar.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -146,28 +149,28 @@ public class PantallaUsuario {
 		            } else {
 		            	
 		            	botonVer.setOnAction(event -> {
-		            		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "rUsuario")) { 
+		            		//if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "rUsuario")) { 
 		            			usuario = getTableView().getItems().get(getIndex());
 		            			verUsuario(usuario);
-		            		}else
-		            			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		            		
+		            		//}else
+		            	//		Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		            		
 		            	});//FIN LISTENER
 		            	
 		            	
 		            	botonEditar.setOnAction(event -> {
-		            		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "uUsuario")) { 
+		            	//	if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "uUsuario")) { 
 		            			usuario = getTableView().getItems().get(getIndex());
 		            			modificarUsuario(usuario);
-		            		}else
-		            			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");
+		            	//	}else
+		            	//		Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");
 		            	});//FIN LISTENER
 		            
 		            	botonEliminar.setOnAction(event -> {
-		            		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "dUsuario")) {
+		            	//	if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "dUsuario")) {
 		            			usuario = getTableView().getItems().get(getIndex());
 		            			eliminarUsuario(usuario);
-		            		} else
-		            			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		        					                	
+		            	//	} else
+		            	//		Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		        					                	
 		                });//FIN LISTENER
 		            	
 		            		

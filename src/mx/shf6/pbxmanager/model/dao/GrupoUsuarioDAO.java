@@ -13,7 +13,7 @@ public class GrupoUsuarioDAO {
 
 	// METODO PARA HACER CREATE EN TABLA GRUPOUSUARIO
 	public static final boolean create(Connection connection, GrupoUsuario grupoUsuario) {
-		String query = " INSERT INTO ut_gruposusuario (Nombre, Descripcion) values ( ?, ?)";
+		String query = " INSERT INTO ut_grupousuario (Nombre, Descripcion) values ( ?, ?)";
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, grupoUsuario.getNombre());
@@ -28,7 +28,7 @@ public class GrupoUsuarioDAO {
 
 	// METODO PARA OBTENER REGISTROS DE LA TABLA GRUPOUSUARIO
 	public static final ArrayList<GrupoUsuario> readTodos(Connection connection) {
-		String query = "SELECT Sys_PK, Nombre, Descripcion FROM ut_gruposusuario ORDER BY Nombre ASC";
+		String query = "SELECT Sys_PK, Nombre, Descripcion FROM ut_grupousuario ORDER BY Nombre ASC";
 		ArrayList<GrupoUsuario> listaGrupoUsuario = new ArrayList<GrupoUsuario>();
 		try {
 			Statement statement = connection.createStatement();
@@ -48,7 +48,7 @@ public class GrupoUsuarioDAO {
 
 	// METODO PARA HACER SELECT EN LA TABLA GRUPOSUSUARIO
 	public static final GrupoUsuario readPorSysPK(Connection connection, int sysPK) {
-		String query = "SELECT Sys_PK, Nombre, Descripcion FROM ut_gruposusuario WHERE Sys_PK = " + sysPK;
+		String query = "SELECT Sys_PK, Nombre, Descripcion FROM ut_grupousuario WHERE Sys_PK = " + sysPK;
 		GrupoUsuario grupoUsuario = new GrupoUsuario();
 		try {
 			Statement sentencia = connection.createStatement();
@@ -67,7 +67,7 @@ public class GrupoUsuarioDAO {
 	// METODO PARA OBTENER REGISTROS SEGUN SU NOMBRE O DESCRIPCION
 	public static final ArrayList<GrupoUsuario> readPorNombreDescripcionLike(Connection connection, String like) {
 		ArrayList<GrupoUsuario> listaGrupoUsuario = new ArrayList<GrupoUsuario>();
-		String query = "SELECT Sys_PK, Nombre, Descripcion FROM ut_gruposusuario WHERE Nombre LIKE '%" + like
+		String query = "SELECT Sys_PK, Nombre, Descripcion FROM ut_grupousuario WHERE Nombre LIKE '%" + like
 				+ "%' OR Descripcion LIKE '%" + like + "%'";
 		try {
 			Statement sentencia = connection.createStatement();
@@ -87,7 +87,7 @@ public class GrupoUsuarioDAO {
 
 	// METODO PARA HACER UPDATE EN LA TABLA GRUPOSUSUARIO
 	public static final boolean update(Connection connection, GrupoUsuario grupoUsuario) {
-		String query = "UPDATE ut_gruposusuario SET Nombre = ?, descripcion= ? WHERE Sys_PK= ?;";
+		String query = "UPDATE ut_grupousuario SET Nombre = ?, descripcion= ? WHERE Sys_PK= ?;";
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, grupoUsuario.getNombre());
@@ -103,7 +103,7 @@ public class GrupoUsuarioDAO {
 
 	// METODO PARA HACER DELETE EN LA TABLA GRUPOSUSUARIO
 	public static final boolean delete(Connection connection, GrupoUsuario grupoUsuario) {
-		String query = " DELETE FROM ut_gruposusuario WHERE Sys_PK= ?";
+		String query = " DELETE FROM ut_grupousuario WHERE Sys_PK= ?";
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, grupoUsuario.getSysPk());
@@ -114,5 +114,4 @@ public class GrupoUsuarioDAO {
 			return false;
 		} // FIN TRY-CATCH
 	}// FIN METODO
-
 }// FIN CLASE
