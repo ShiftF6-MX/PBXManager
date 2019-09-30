@@ -14,8 +14,8 @@ import mx.shf6.pbxmanager.model.GrupoUsuario;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.model.dao.GrupoUsuarioDAO;
 import mx.shf6.pbxmanager.model.dao.UsuarioDAO;
+import mx.shf6.pbxmanager.utilities.Notificacion;
 import mx.shf6.utilities.AutoCompleteComboBoxListener;
-import mx.shf6.utilities.Notificacion;
 import mx.shf6.utilities.RestriccionTextField;
 
 public class DialogoUsuario {
@@ -55,7 +55,6 @@ public class DialogoUsuario {
 		this.usuario = usuario;
 		this.opcion = opcion;
 		this.observableListaGrupoUsuario = FXCollections.observableArrayList();
-		this.listaGrupoUsuario = GrupoUsuarioDAO.readTodos(this.mainApp.getConnection());
 		inicializarCombos();
 		mostrarDatosInterfaz();
 	}//FIN METODO
@@ -84,8 +83,6 @@ public class DialogoUsuario {
 		}//FIN FOR
 		return true;
 	}//FIN METODO
-
-	
 
 	//INNICIALIZAR COMPONENTES
 	private void mostrarDatosInterfaz() {

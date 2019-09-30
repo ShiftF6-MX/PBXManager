@@ -10,12 +10,12 @@ import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.utilities.Notificacion;
 
 public class UsuarioDAO {
-	
+
 	//CONSTANTES
 	public static final int NO_REGISTRADO = 0;
 	public static final int CONRASENA_INCORRECTA = 1;
 	public static final int USUARIO_BLOQUEADO = 2;
-	public static final int ACCESO_CORRECTO = 3;	
+	public static final int ACCESO_CORRECTO = 3;
 
 	// METODO PARA AGREGAR UN USUARIO
 	public static final boolean create(Connection conexion, Usuario usuario) {
@@ -47,8 +47,9 @@ public class UsuarioDAO {
 				usuario.setSysPK(result.getInt(1));
 				usuario.setUsuario(result.getString(2));
 				usuario.setPin(result.getString(3));
-				usuario.setStatus(result.getInt(4));
-				usuario.setGrupoUsuarioFK(result.getInt(5));
+				usuario.setExtension(result.getString(4));
+				usuario.setStatus(result.getInt(5));
+				usuario.setGrupoUsuarioFK(result.getInt(6));
 			} // FIN WHILE
 		} catch (SQLException ex) {
 			Notificacion.dialogoException(ex);
@@ -66,10 +67,11 @@ public class UsuarioDAO {
 			while (result.next()) {
 				Usuario usuario = new Usuario();
 				usuario.setSysPK(result.getInt(1));
-				usuario.setPin(result.getString(2));
-				usuario.setExtension(result.getString(3));
-				usuario.setStatus(result.getInt(4));
-				usuario.setGrupoUsuarioFK(result.getInt(5));
+				usuario.setUsuario(result.getString(2));
+				usuario.setPin(result.getString(3));
+				usuario.setExtension(result.getString(4));
+				usuario.setStatus(result.getInt(5));
+				usuario.setGrupoUsuarioFK(result.getInt(6));
 				listaUsuario.add(usuario);
 			} // FIN WHILE
 		} catch (SQLException ex) {
@@ -111,7 +113,7 @@ public class UsuarioDAO {
 		} // FIN TRY/CATCH
 	}// FIN METODO
 
-	
+
 	//METODO PARA OBTENER UN REGISTRO POR LIKE
 	public static ArrayList<Usuario> readPorUsuarioExtensionLike(Connection connection, String like) {
 		ArrayList<Usuario> listLikeUsuarios= new ArrayList<Usuario>();
@@ -122,10 +124,11 @@ public class UsuarioDAO {
 			while (result.next()) {
 			Usuario usuario = new Usuario();
 				usuario.setSysPK(result.getInt(1));
-				usuario.setPin(result.getString(2));
-				usuario.setExtension(result.getString(3));
-				usuario.setStatus(result.getInt(4));
-				usuario.setGrupoUsuarioFK(result.getInt(5));
+				usuario.setUsuario(result.getString(2));
+				usuario.setPin(result.getString(3));
+				usuario.setExtension(result.getString(4));
+				usuario.setStatus(result.getInt(5));
+				usuario.setGrupoUsuarioFK(result.getInt(6));
 				listLikeUsuarios.add(usuario);
 			}//FIN WHILE
 		} catch (SQLException ex) {
@@ -133,38 +136,36 @@ public class UsuarioDAO {
 		}//FIN TRY/CATCH
 		return listLikeUsuarios;
 	}//FIN METODO
-	
-	public static final ArrayList<Usuario> readPorCampo(Connection connection, String campoBusqueda, String valorBusqueda) {
-		ArrayList<Usuario> arrayListUsuario = new ArrayList<Usuario>();
-		String query = "SELECT Sys_PK, Usuario, AES_DECRYPT(PIN,'Nissan'), Extension, Status, GrupoUsuarioFK FROM ut_usuarios WHERE " + campoBusqueda + " = ? ORDER BY Sys_PK";
+
+	public static final Usuario readPorCampo(Connection connection, String campoBusqueda, String valorBusqueda) {
+		Usuario usuario = null;
+		String query = "SELECT Sys_PK, Usuario, PIN, Extension, Status, GrupoUsuarioFK FROM ut_usuarios WHERE " + campoBusqueda + " = ? ORDER BY Sys_PK";
 			try {
 				PreparedStatement preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, valorBusqueda);
 				ResultSet resultSet=preparedStatement.executeQuery();
-				Usuario usuario = null;
 				while (resultSet.next()) {
 					usuario = new Usuario();
 					usuario.setSysPK(resultSet.getInt(1));
-					usuario.setPin(resultSet.getString(2));
-					usuario.setExtension(resultSet.getString(3));
-					usuario.setStatus(resultSet.getInt(4));
-					usuario.setGrupoUsuarioFK(resultSet.getInt(5));
-					arrayListUsuario.add(usuario);
+					usuario.setUsuario(resultSet.getString(2));
+					usuario.setPin(resultSet.getString(3));
+					usuario.setExtension(resultSet.getString(4));
+					usuario.setStatus(resultSet.getInt(5));
+					usuario.setGrupoUsuarioFK(resultSet.getInt(6));
 				}//END WHILE
 			} catch (SQLException ex) {
 				Notificacion.dialogoException(ex);
 			}//FIN TRy/CATCH
-		return arrayListUsuario;
+		return usuario;
 	}//FIN METODO
-	
+
 	public static final int validarUsuario(Connection connection, String nombreUsuario, String pin) {
-		Usuario usuario = new Usuario();
-		ArrayList<Usuario> resultadoUsuario = readPorCampo(connection, "E", nombreUsuario);
-		if (resultadoUsuario.size() != 0) {
-			usuario = (Usuario) resultadoUsuario.get(0);
-			if(usuario.getUsuario().equals(nombreUsuario)) {
-				if(usuario.getPin().equals(pin)){
-					if(usuario.getStatus().equals(0)) {
+		Usuario resultadoUsuario = null;
+		resultadoUsuario = readPorCampo(connection, "Usuario", nombreUsuario);
+		if (resultadoUsuario != null) {
+			if(resultadoUsuario.getUsuario().equals(nombreUsuario)) {
+				if(resultadoUsuario.getPin().equals(pin)){
+					if(resultadoUsuario.getStatus().equals(0)) {
 						return USUARIO_BLOQUEADO;//USUARIO BLOQUEADO
 					}else {
 						return ACCESO_CORRECTO;//ACCESO CORRECTO
@@ -178,4 +179,4 @@ public class UsuarioDAO {
 		}//FIN IF-ELSE
 		return 0;
 	}//FIN METODO
-}
+}//FIN CLASE
