@@ -14,9 +14,10 @@ import mx.shf6.pbxmanager.model.GrupoUsuario;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.model.dao.GrupoUsuarioDAO;
 import mx.shf6.pbxmanager.model.dao.UsuarioDAO;
+import mx.shf6.pbxmanager.utilities.AutoCompleteComboBoxListener;
 import mx.shf6.pbxmanager.utilities.Notificacion;
-import mx.shf6.utilities.AutoCompleteComboBoxListener;
-import mx.shf6.utilities.RestriccionTextField;
+import mx.shf6.pbxmanager.utilities.RestriccionTextField;
+
 
 public class DialogoUsuario {
 

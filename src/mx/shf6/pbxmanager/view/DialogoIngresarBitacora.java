@@ -9,7 +9,7 @@ import javafx.scene.control.Alert.AlertType;
 import mx.shf6.pbxmanager.MainApp;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.model.dao.UsuarioDAO;
-import mx.shf6.utilities.Notificacion;
+import mx.shf6.pbxmanager.utilities.Notificacion;
 
 public class DialogoIngresarBitacora {
 
