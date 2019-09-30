@@ -82,7 +82,7 @@ public class UsuarioDAO {
 
 	// METODO PARA ACTUALIZAR UN USUARIO
 	public static final boolean update(Connection connection, Usuario usuario) {
-		String query = "UPDATE ut_usuarios SET Usuario = ?,PIN = AES_DECRYPT(?,'Nissan'), Extension = ?, Status = ?, GrupoUsuarioFK = ? WHERE Sys_PK = ?";
+		String query = "UPDATE ut_usuarios SET Usuario = ?,PIN = AES_ENCRYPT(?,'Nissan'), Extension = ?, Status = ?, GrupoUsuarioFK = ? WHERE Sys_PK = ?";
 		try {
 			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 			ps.setString(1, usuario.getUsuario());
