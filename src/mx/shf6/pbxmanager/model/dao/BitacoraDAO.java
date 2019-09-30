@@ -18,7 +18,7 @@ public class BitacoraDAO {
 	public static ArrayList<Bitacora> leerTodos(Connection conexion, String status, Date fechaInicio, Date fechaFinal, String cdrOrigen, String numero){
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		ArrayList<Bitacora> listaCDR = new ArrayList<Bitacora>();
-		String consulta = " SELECT calldate, clid, src, dst, dcontext, channel, dstchannel, lastapp, lastdata, duration, billsec, disposition, amaflags, uniqueid, cnum, cnam, comentario FROM cdr WHERE disposition LIKE'%" + status + "%' AND calldate BETWEEN '" + simpleDateFormat.format(fechaInicio) +"' AND '"+ simpleDateFormat.format(fechaFinal) +"' AND src LIKE '%" + cdrOrigen + "%' AND dst LIKE '%" + numero + "%'";
+		String consulta = " SELECT calldate, clid, src, dst, dcontext, channel, dstchannel, lastapp, lastdata, duration, billsec, disposition, amaflags, uniqueid, cnum, cnam, comentario FROM cdr WHERE disposition LIKE'%" + status + "%' AND (calldate BETWEEN '" + simpleDateFormat.format(fechaInicio) + " 00:00:00" +"' AND '"+ simpleDateFormat.format(fechaFinal) + " 23:59:59" + "') AND src LIKE '%" + cdrOrigen + "%' AND dst LIKE '%" + numero + "%'";
 		try {
 			Statement st = conexion.createStatement();
 			ResultSet rs = st.executeQuery(consulta);		
