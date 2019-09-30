@@ -139,7 +139,7 @@ public class UsuarioDAO {
 
 	public static final Usuario readPorCampo(Connection connection, String campoBusqueda, String valorBusqueda) {
 		Usuario usuario = null;
-		String query = "SELECT Sys_PK, Usuario, PIN, Extension, Status, GrupoUsuarioFK FROM ut_usuarios WHERE " + campoBusqueda + " = ? ORDER BY Sys_PK";
+		String query = "SELECT Sys_PK, Usuario, AES_DECRYPT(PIN,'Nissan'), Extension, Status, GrupoUsuarioFK FROM ut_usuarios WHERE " + campoBusqueda + " = ? ORDER BY Sys_PK";
 			try {
 				PreparedStatement preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, valorBusqueda);
@@ -162,6 +162,7 @@ public class UsuarioDAO {
 	public static final int validarUsuario(Connection connection, String nombreUsuario, String pin) {
 		Usuario resultadoUsuario = null;
 		resultadoUsuario = readPorCampo(connection, "Usuario", nombreUsuario);
+		System.out.println(resultadoUsuario.getUsuario() + " " + resultadoUsuario.getPin());
 		if (resultadoUsuario != null) {
 			if(resultadoUsuario.getUsuario().equals(nombreUsuario)) {
 				if(resultadoUsuario.getPin().equals(pin)){
