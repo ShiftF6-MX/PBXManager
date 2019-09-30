@@ -33,7 +33,7 @@
             <VBox spacing="2.0">
                <children>
                   <Label layoutX="10.0" layoutY="27.0" styleClass="labelRobotoMedium12" text="Extención" />
-                  <TextField fx:id="campoTextoExtencion" layoutX="10.0" layoutY="120.0" styleClass="campoBuscador" />
+                  <TextField fx:id="campoExtencion" layoutX="10.0" layoutY="120.0" styleClass="campoBuscador" />
                </children>
             </VBox>
             <VBox spacing="2.0">

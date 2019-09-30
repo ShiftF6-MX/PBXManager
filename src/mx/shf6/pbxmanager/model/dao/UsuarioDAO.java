@@ -82,7 +82,7 @@ public class UsuarioDAO {
 
 	// METODO PARA ACTUALIZAR UN USUARIO
 	public static final boolean update(Connection connection, Usuario usuario) {
-		String query = "UPDATE ut_usuarios SET Usuario = ?,PIN = AES_DECRYPT(?,'Nissan'), Extension = ?, Status = ?, GrupoUsuarioFK = ? WHERE Sys_PK = ?";
+		String query = "UPDATE ut_usuarios SET Usuario = ?,PIN = AES_ENCRYPT(?,'Nissan'), Extension = ?, Status = ?, GrupoUsuarioFK = ? WHERE Sys_PK = ?";
 		try {
 			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 			ps.setString(1, usuario.getUsuario());
@@ -137,15 +137,34 @@ public class UsuarioDAO {
 		return listLikeUsuarios;
 	}//FIN METODO
 
+	public static final Usuario readPorNombreUsuario(Connection connection, String nombreUsuario) {
+		Usuario usuario = new Usuario();
+		String query = "SELECT Sys_PK, Usuario, AES_DECRYPT(PIN,'Nissan'), Extension, Status, GrupoUsuarioFK FROM ut_usuarios WHERE Usuario = '"+ nombreUsuario +"'";
+			try {
+				PreparedStatement preparedStatement = connection.prepareStatement(query);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					usuario.setSysPK(resultSet.getInt(1));
+					usuario.setUsuario(resultSet.getString(2));
+					usuario.setPin(resultSet.getString(3));
+					usuario.setExtension(resultSet.getString(4));
+					usuario.setStatus(resultSet.getInt(5));
+					usuario.setGrupoUsuarioFK(resultSet.getInt(6));
+				}//END WHILE
+			} catch (SQLException ex) {
+				Notificacion.dialogoException(ex);
+			}//FIN TRy/CATCH
+		return usuario;
+	}//FIN METODO
+
 	public static final Usuario readPorCampo(Connection connection, String campoBusqueda, String valorBusqueda) {
-		Usuario usuario = null;
+		Usuario usuario = new Usuario();
 		String query = "SELECT Sys_PK, Usuario, AES_DECRYPT(PIN,'Nissan'), Extension, Status, GrupoUsuarioFK FROM ut_usuarios WHERE " + campoBusqueda + " = ? ORDER BY Sys_PK";
 			try {
 				PreparedStatement preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, valorBusqueda);
 				ResultSet resultSet=preparedStatement.executeQuery();
 				while (resultSet.next()) {
-					usuario = new Usuario();
 					usuario.setSysPK(resultSet.getInt(1));
 					usuario.setUsuario(resultSet.getString(2));
 					usuario.setPin(resultSet.getString(3));
@@ -160,24 +179,20 @@ public class UsuarioDAO {
 	}//FIN METODO
 
 	public static final int validarUsuario(Connection connection, String nombreUsuario, String pin) {
-		Usuario resultadoUsuario = null;
+		Usuario resultadoUsuario = new Usuario();
 		resultadoUsuario = readPorCampo(connection, "Usuario", nombreUsuario);
-		System.out.println(resultadoUsuario.getUsuario() + " " + resultadoUsuario.getPin());
-		if (resultadoUsuario != null) {
-			if(resultadoUsuario.getUsuario().equals(nombreUsuario)) {
-				if(resultadoUsuario.getPin().equals(pin)){
-					if(resultadoUsuario.getStatus().equals(0)) {
-						return USUARIO_BLOQUEADO;//USUARIO BLOQUEADO
-					}else {
-						return ACCESO_CORRECTO;//ACCESO CORRECTO
-					}//FIN IF-ELSE
+		if(resultadoUsuario.getUsuario().equals(nombreUsuario)) {
+			if(resultadoUsuario.getPin().equals(pin)){
+				if(resultadoUsuario.getStatus().equals(0)) {
+					return USUARIO_BLOQUEADO;//USUARIO BLOQUEADO
 				}else {
-					return CONRASENA_INCORRECTA;//CONTRASENA INCORRECTA
+					return ACCESO_CORRECTO;//ACCESO CORRECTO
 				}//FIN IF-ELSE
-			}//FIN IF
+			}else {
+				return CONRASENA_INCORRECTA;//CONTRASENA INCORRECTA
+			}//FIN IF-ELSE
 		}else {
-			return NO_REGISTRADO;//USUARIO NO REGISTRADO
-		}//FIN IF-ELSE
-		return 0;
+			return NO_REGISTRADO;
+		}//FIN IF
 	}//FIN METODO
 }//FIN CLASE

@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import mx.shf6.utilities.Notificacion;
+import mx.shf6.pbxmanager.utilities.Notificacion;
+
+
 
 
 public class Seguridad {

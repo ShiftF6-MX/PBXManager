@@ -52,8 +52,7 @@ public class DialogoIngresarBitacora {
 			int accesoUsuario = UsuarioDAO.validarUsuario(this.connetion, campoTextoNombre.getText(), campoTextoPIN.getText());
 			if(accesoUsuario == UsuarioDAO.ACCESO_CORRECTO){
 				Usuario usuario = new Usuario();
-				usuario.setUsuario(campoTextoNombre.getText());
-				usuario.setPin(campoTextoPIN.getText());
+				usuario = UsuarioDAO.readPorNombreUsuario(connetion, campoTextoNombre.getText());
 				this.mainApp.setUsuario(usuario);
 				this.mainApp.getEscenarioDos().close();
 			}else if (accesoUsuario == UsuarioDAO.CONRASENA_INCORRECTA)
