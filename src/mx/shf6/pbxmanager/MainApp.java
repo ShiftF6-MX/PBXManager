@@ -25,10 +25,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import mx.shf6.pbxmanager.model.Bitacora;
 import mx.shf6.pbxmanager.model.Usuario;
 import mx.shf6.pbxmanager.utilities.ConnectionDB;
 import mx.shf6.pbxmanager.utilities.LeerArchivo;
 import mx.shf6.pbxmanager.utilities.Notificacion;
+import mx.shf6.pbxmanager.view.DialogoComentarios;
 import mx.shf6.pbxmanager.view.DialogoIngresarBitacora;
 import mx.shf6.pbxmanager.view.DialogoUsuario;
 import mx.shf6.pbxmanager.view.PantallaBitacora;
@@ -55,6 +57,7 @@ public class MainApp extends Application {
 	//DIALOGOS DEL SISTEMA
 	private AnchorPane dialogoIngresarBitacora;
 	private AnchorPane dialogoUsuario;
+	private AnchorPane dialogoComentarios;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -239,8 +242,28 @@ public class MainApp extends Application {
 			
 			DialogoUsuario dialogoUsuario = fxmlLoader.getController();
 			dialogoUsuario.setMainApp(this, usuario, opcion);
+			this.escenarioDos.showAndWait();
 		} catch (IOException | IllegalStateException ex) {
 			Notificacion.dialogoException(ex);
+		}//FIN TRY/CATCH
+	}//FIN METODO
+	
+	public String openDialogoComentarios(Bitacora bitacora) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			fxmlLoader.setLocation(MainApp.class.getResource("view/DialogoComentarios.fxml"));
+			this.dialogoComentarios = (AnchorPane) fxmlLoader.load();
+			
+			Scene escenaDialogoComentarios = this.initEscenarioDos(this.dialogoComentarios);
+			this.escenarioDos.setScene(escenaDialogoComentarios);
+			
+			DialogoComentarios dialogoComentarios = fxmlLoader.getController();
+			dialogoComentarios.setMainApp(this, bitacora.getUniqueid());
+			this.escenarioDos.showAndWait();
+			return dialogoComentarios.getComentarios();
+		} catch (IOException | IllegalStateException ex) {
+			Notificacion.dialogoException(ex);
+			return "";
 		}//FIN TRY/CATCH
 	}//FIN METODO
 
