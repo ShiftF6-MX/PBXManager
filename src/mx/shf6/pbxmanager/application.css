@@ -10,7 +10,7 @@
 	-fx-background-color: transparent;
 }
 
-/* TIPOGRAFIAS */
+/* ETIQUETAS */
 .labelRobotoLight10 {
 	-fx-font-family: "Roboto Regular";
 	-fx-font-size: 10px;
@@ -60,12 +60,16 @@
 	-fx-font-size: 18px;
 }
 
-/* VBOX */
+/* FONDOS */
 .vBox-Gray {
 	-fx-background-color: #4D4D4D;
 }
 .vBox-Gray:hover {
 	-fx-background-color: #404040;
+}
+
+.fondoCabeceraFormulario {
+	-fx-background-color: #4D4D4D;
 }
 
 /* CSS PARA PANTALLA SESION */
@@ -114,6 +118,26 @@
 	-fx-border-width: 0px 0px 0px 0px;
 	-fx-border-radius: 0px 0px 0px 0px;
 	-fx-background-radius: 0px 0px 0px 0px;
+}
+
+.areaTexto {
+    -fx-background-insets: 0;
+    -fx-background-color: #E6E6E6;
+    -fx-background-radius: 0, 0, 0, 0;
+
+    -fx-box-border: none;
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-border-width: -1;
+}
+
+.areaTexto .content {
+	-fx-background-color: #E6E6E6;
+}
+
+.areaTexto:focused .content {
+	-fx-background-color: #E6E6E6;
 }
 
 .tablaDatosGestor {
