@@ -179,7 +179,7 @@ public class PantallaBitacora  extends Thread{
 				for(Bitacora cdr : this.listaBitacora) {
 					if (/*cdr.getSRC().equals("200") && */cdr.getDisposition().equals("ANSWERED") && cdr.getComentario().equals("")) {
 						Platform.runLater(() -> {
-							cdr.setComentario(Notificacion.dialogoEntradaTexto("", "Ingrese sus comentarios", ""));
+							cdr.setComentario(this.mainApp.openDialogoComentarios(cdr));
 							if (BitacoraDAO.update(this.conexion, cdr)) {
 							    synchronized (this) {
 									this.notify();
