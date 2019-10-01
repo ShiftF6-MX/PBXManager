@@ -57,12 +57,12 @@
                         <HBox alignment="CENTER" fillHeight="false" maxHeight="30.0" maxWidth="30.0" onMouseClicked="#manejadorBotonBuscar" prefHeight="30.0" prefWidth="30.0" styleClass="campoBuscador">
                            <children>
                               <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../EntregasParciales/src/mx/shf6/maxitools/view/images/1x/BuscarIcon.png" />
-                                 </image>
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
+                                 <image>
+                                    <Image url="@images/1x/BuscarIcono.png" />
+                                 </image>
                               </ImageView>
                            </children>
                            <cursor>
@@ -81,19 +81,19 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
-                           <image>
-                              <Image url="@../../../../../../MaxiProduction/src/mx/shf6/maxiproduction/view/images/icons/1x/ActualizarPantallaIcono.png" />
-                           </image>
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <image>
+                              <Image url="@images/1x/ActualizarPantallaIcono.png" />
+                           </image>
                         </ImageView>
                         <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#manejadorBotonCerrar" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <image>
-                              <Image url="@../../../../../../MaxiProduction/src/mx/shf6/maxiproduction/view/images/icons/1x/CerrarPantallaIcono.png" />
+                              <Image url="@images/1x/CerrarPantallaIcono.png" />
                            </image>
                         </ImageView>
                      </children>
