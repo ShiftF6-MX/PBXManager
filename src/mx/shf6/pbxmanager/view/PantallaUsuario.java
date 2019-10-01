@@ -51,7 +51,7 @@ public class PantallaUsuario {
 	@FXML private PTableColumn<Usuario, String> columnaExtension;
 	@FXML private PTableColumn<Usuario, String> columnaStatus;
 	@FXML private PTableColumn<Usuario, String> columnaAcciones;
-	@FXML private TextField campoBuscar;
+	@FXML private TextField campoTextoBuscar;
 	
 	//METODOS
 	@FXML private void initialize() {
@@ -68,7 +68,7 @@ public class PantallaUsuario {
 	}//FIN METODO
 	
 	private void iniciarComponentes() {
-		this.campoBuscar.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		this.campoTextoBuscar.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode().equals(KeyCode.ENTER))
@@ -95,7 +95,7 @@ public class PantallaUsuario {
 	private void buscarRegistro() {
 		this.tablaUsuario.setItems(null);
 		this.listaUsuarios.clear();
-		this.listaUsuarios = UsuarioDAO.readPorUsuarioExtensionLike(this.connection, this.campoBuscar.getText());
+		this.listaUsuarios = UsuarioDAO.readPorUsuarioExtensionLike(this.connection, this.campoTextoBuscar.getText());
 		this.tablaUsuario.setItems(FXCollections.observableArrayList(this.listaUsuarios));
 	}//FIN METODO
 	
@@ -215,7 +215,7 @@ public class PantallaUsuario {
 		this.actualizarTabla();
 	}//FIN METODO
 	
-	@FXML private void manejadorCerrar() {
+	@FXML private void manejadorBotonCerrar() {
 		this.mainApp.openPantallaMenu();
 	}//FIN METODO
 	
