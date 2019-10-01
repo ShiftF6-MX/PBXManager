@@ -16,6 +16,7 @@ public class DialogoIngresarBitacora {
 	//PROPIEDADES
 	private MainApp mainApp;
 	private Connection connetion;
+	private Usuario usuario;
 
 	//VARIABLES
 	Double cantidadProgramar;
@@ -34,6 +35,7 @@ public class DialogoIngresarBitacora {
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 		this.connetion = this.mainApp.getConnection();
+		this.usuario = new Usuario();
 	}//FIN METODO
 
 	private boolean validarCampos() {
@@ -51,9 +53,8 @@ public class DialogoIngresarBitacora {
 		if(validarCampos()){
 			int accesoUsuario = UsuarioDAO.validarUsuario(this.connetion, campoTextoNombre.getText(), campoTextoPIN.getText());
 			if(accesoUsuario == UsuarioDAO.ACCESO_CORRECTO){
-				Usuario usuario = new Usuario();
-				usuario = UsuarioDAO.readPorNombreUsuario(connetion, campoTextoNombre.getText());
-				this.mainApp.setUsuario(usuario);
+				this.usuario = UsuarioDAO.readPorNombreUsuario(connetion, campoTextoNombre.getText());
+				this.mainApp.setUsuario(this.usuario);
 				this.mainApp.getEscenarioDos().close();
 			}else if (accesoUsuario == UsuarioDAO.CONRASENA_INCORRECTA)
 				Notificacion.dialogoAlerta(AlertType.ERROR, "", "¡Contraseña Incorrecta!");
@@ -71,6 +72,7 @@ public class DialogoIngresarBitacora {
 
 	@FXML private void manejadorBotonCerrar() {
 		this.mainApp.getEscenarioDos().close();
+		this.mainApp.getEscenarioUno().close();
 	}//FIN METODO
 
 }//FIN CLASE
