@@ -11,6 +11,10 @@ public class GrupoUsuario {
 	private ObjectProperty<Integer> sysPk;
 	private StringProperty nombre;
 	private StringProperty descripcion;
+	
+	//COSTANTES
+	public static final int ADMINISTRADOR = 1;
+	public static final int OPERADOR = 2;
 
 	// CONSTRUCTOR SIN PARAMETROS
 	public GrupoUsuario() {

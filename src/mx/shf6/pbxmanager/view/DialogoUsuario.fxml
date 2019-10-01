@@ -10,7 +10,7 @@
    <children>
       <VBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="250.0" styleClass="dashBoardCardGray" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="textFieldTitulos" text="Información usuario" />
+            <Label styleClass="textFieldTitulos" text="Formulario de Registro" />
          </children>
          <padding>
             <Insets left="10.0" />
@@ -20,39 +20,42 @@
          <children>
             <VBox spacing="2.0">
                <children>
-                  <Label styleClass="labelRobotoMedium12" text="Nombre de usuario" />
+                  <Label styleClass="labelRobotoMedium12" text="Nombre:" />
                   <TextField fx:id="campoTextoNombreUsuario" styleClass="campoBuscador" />
                </children>
             </VBox>
             <VBox spacing="2.0">
                <children>
-                  <Label layoutX="10.0" layoutY="10.0" styleClass="labelRobotoMedium12" text="PIN" />
+                  <Label layoutX="10.0" layoutY="10.0" styleClass="labelRobotoMedium12" text="PIN:" />
                   <PasswordField fx:id="campoTextoPIN" styleClass="campoBuscador" />
                </children>
             </VBox>
             <VBox spacing="2.0">
                <children>
-                  <Label layoutX="10.0" layoutY="27.0" styleClass="labelRobotoMedium12" text="Extención" />
+                  <Label layoutX="10.0" layoutY="27.0" styleClass="labelRobotoMedium12" text="Extensión:" />
                   <TextField fx:id="campoExtencion" layoutX="10.0" layoutY="120.0" styleClass="campoBuscador" />
                </children>
             </VBox>
             <VBox spacing="2.0">
                <children>
-                  <Label layoutX="10.0" layoutY="44.0" styleClass="labelRobotoMedium12" text="Status del usuario" />
+                  <Label layoutX="10.0" layoutY="44.0" styleClass="labelRobotoMedium12" text="Status:" />
                   <ComboBox fx:id="comboStatus" maxWidth="1.7976931348623157E308" styleClass="campoBuscador" />
                </children>
             </VBox>
             <VBox spacing="2.0">
                <children>
-                  <Label layoutX="10.0" layoutY="61.0" text="Grupo del usuario" />
+                  <Label layoutX="10.0" layoutY="61.0" text="Grupo:" />
                   <ComboBox fx:id="comboGrupoUsuario" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" styleClass="campoBuscador" />
                </children>
             </VBox>
             <VBox spacing="5.0">
                <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#manejadorBotonAceptar" styleClass="buttonGreen" text="Aceptar" />
-                  <Button layoutX="10.0" layoutY="220.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#manejadorBotonCerrar" styleClass="buttonRed" text="Cancelar" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#manejadorBotonAceptar" prefHeight="30.0" styleClass="buttonGreen" text="Aceptar" />
+                  <Button layoutX="10.0" layoutY="220.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#manejadorBotonCerrar" prefHeight="30.0" styleClass="buttonRed" text="Cancelar" />
                </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
             </VBox>
          </children>
       </VBox>

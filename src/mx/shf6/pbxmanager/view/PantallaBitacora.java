@@ -19,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import mx.shf6.pbxmanager.MainApp;
 import mx.shf6.pbxmanager.model.Bitacora;
+import mx.shf6.pbxmanager.model.GrupoUsuario;
 import mx.shf6.pbxmanager.model.dao.BitacoraDAO;
 import mx.shf6.pbxmanager.utilities.Notificacion;
 import mx.shf6.pbxmanager.utilities.PTableColumn;
@@ -30,7 +31,8 @@ public class PantallaBitacora  extends Thread{
 	private MainApp mainApp;
 	private Connection conexion;
 	private ArrayList<Bitacora> listaBitacora;
-	private String cdrOrigen;
+	private String extensionOrigen;
+	private Boolean opcion;
 		
 	//COMPONENTES DE LA INTERFAZ
 	@FXML private MenuButton botonMenuStatus;
@@ -64,10 +66,17 @@ public class PantallaBitacora  extends Thread{
 	}//FIN METODO
 	
 	//METODO SET MAIN
-	public void setMainApp(MainApp mainApp, String cdrOrigen) {
+	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 		this.conexion = this.mainApp.getConnection();
-		this.cdrOrigen = cdrOrigen;
+		
+		extensionOrigen = this.mainApp.getUsuario().getExtension();
+		opcion = true;
+		if (this.mainApp.getUsuario().getGrupoUsuarioFK() == GrupoUsuario.ADMINISTRADOR) {
+			this.extensionOrigen = "";
+			this.opcion = false;
+		}//FIN IF
+			
 		this.listaBitacora = new ArrayList<Bitacora>();
 		this.initTabla();
 		this.updateTabla();	
@@ -167,14 +176,14 @@ public class PantallaBitacora  extends Thread{
 		if (status.equals("TODOS"))
 			status = "";
 		
-		this.listaBitacora = BitacoraDAO.leerTodos(this.conexion, status, Date.valueOf(this.datePickerFechaInicio.getValue()), Date.valueOf(this.datePickerFechaFinal.getValue()), this.cdrOrigen, this.campoTextoBuscar.getText());
+		this.listaBitacora = BitacoraDAO.leerTodos(this.conexion, status, Date.valueOf(this.datePickerFechaInicio.getValue()), Date.valueOf(this.datePickerFechaFinal.getValue()), extensionOrigen, this.campoTextoBuscar.getText());
 		this.tablaBitacora.setItems(FXCollections.observableArrayList(listaBitacora));
 	}// FIN METODO
 	
 	@Override
 	public void run() {
 		try {			
-			while(true) {
+			while(this.opcion) {
 				updateTabla();
 				for(Bitacora cdr : this.listaBitacora) {
 					if (/*cdr.getSRC().equals("200") && */cdr.getDisposition().equals("ANSWERED") && cdr.getComentario().equals("")) {
