@@ -149,28 +149,28 @@ public class PantallaUsuario {
 		            } else {
 		            	
 		            	botonVer.setOnAction(event -> {
-		            		//if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "rUsuario")) { 
+		            		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "rUsuario")) { 
 		            			usuario = getTableView().getItems().get(getIndex());
 		            			verUsuario(usuario);
-		            		//}else
-		            	//		Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		            		
+		            		}else
+		            			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		            		
 		            	});//FIN LISTENER
 		            	
 		            	
 		            	botonEditar.setOnAction(event -> {
-		            	//	if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "uUsuario")) { 
+		            		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "uUsuario")) { 
 		            			usuario = getTableView().getItems().get(getIndex());
 		            			modificarUsuario(usuario);
-		            	//	}else
-		            	//		Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");
+		            		}else
+		            			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");
 		            	});//FIN LISTENER
 		            
 		            	botonEliminar.setOnAction(event -> {
-		            	//	if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "dUsuario")) {
+		            		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "dUsuario")) {
 		            			usuario = getTableView().getItems().get(getIndex());
 		            			eliminarUsuario(usuario);
-		            	//	} else
-		            	//		Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		        					                	
+		            		} else
+		            			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		        					                	
 		                });//FIN LISTENER
 		            	
 		            		
@@ -213,6 +213,10 @@ public class PantallaUsuario {
 	@FXML private void manejadorBotonCrear() {
 		this.mainApp.openDialogoUsuario(usuario, DialogoUsuario.CREAR);
 		this.actualizarTabla();
+	}//FIN METODO
+	
+	@FXML private void manejadorCerrar() {
+		this.mainApp.openPantallaMenu();
 	}//FIN METODO
 	
 	/*@FXML private void manejadorBotonPermisos() {
