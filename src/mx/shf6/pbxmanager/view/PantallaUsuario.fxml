@@ -66,6 +66,11 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </ImageView>
+                        <Separator maxHeight="30.0" orientation="VERTICAL" prefHeight="30.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Separator>
                         <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#manejadorBotonActualizar" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -77,11 +82,6 @@
                               <Image url="@images/1x/ActualizarPantallaIcono.png" />
                            </image>
                         </ImageView>
-                        <Separator maxHeight="30.0" orientation="VERTICAL" prefHeight="30.0">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </Separator>
                         <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#manejadorBotonCerrar" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
