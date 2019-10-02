@@ -40,14 +40,18 @@ public class DialogoUsuario {
 	//COMPONENTES INTERFAZ
 	@FXML private TextField campoTextoNombreUsuario;
 	@FXML private PasswordField campoTextoPIN;
-	@FXML private TextField campoExtencion;
+	@FXML private TextField campoExtension;
 	@FXML private ComboBox<String> comboStatus;
 	@FXML private ComboBox<String> comboGrupoUsuario;
 
 	//INICIA COMPONENTES INTERFAZ DE USUARIO
 	@FXML private void initialize() {
 		RestriccionTextField.limitarNumeroCaracteres(campoTextoNombreUsuario, 32);
+		RestriccionTextField.soloLetras(campoTextoNombreUsuario);
 		RestriccionTextField.limitarNumeroCaracteres(campoTextoPIN, 4);
+		RestriccionTextField.soloNumeros(campoTextoPIN);
+		RestriccionTextField.limitarNumeroCaracteres(campoExtension, 4);
+		RestriccionTextField.soloNumeros(campoExtension);
 	}//FIN METODO
 
 	//ACCESO A LA CLASE PRINCIPAL
@@ -93,8 +97,8 @@ public class DialogoUsuario {
 			this.campoTextoNombreUsuario.setDisable(false);
 			this.campoTextoPIN.setText("");
 			this.campoTextoPIN.setDisable(false);	
-			this.campoExtencion.setText("");
-			this.campoExtencion.setDisable(false);
+			this.campoExtension.setText("");
+			this.campoExtension.setDisable(false);
 			this.comboStatus.getSelectionModel().select("");
 			this.comboStatus.setDisable(false);
 			this.comboGrupoUsuario.getSelectionModel().select("");
@@ -104,8 +108,8 @@ public class DialogoUsuario {
 			this.campoTextoNombreUsuario.setDisable(true);
 			this.campoTextoPIN.setText(this.usuario.getPin());
 			this.campoTextoPIN.setDisable(false);
-			this.campoExtencion.setText(this.usuario.getExtension());
-			this.campoExtencion.setDisable(false);
+			this.campoExtension.setText(this.usuario.getExtension());
+			this.campoExtension.setDisable(false);
 			this.comboStatus.setValue(this.usuario.getDescripcionStatus());
 			this.comboStatus.setDisable(false);
 			this.comboGrupoUsuario.setValue(this.usuario.getGrupoUsuario(this.conexion).getNombre());
@@ -115,8 +119,8 @@ public class DialogoUsuario {
 			this.campoTextoNombreUsuario.setDisable(true);
 			this.campoTextoPIN.setText(this.usuario.getPin());
 			this.campoTextoPIN.setDisable(true);
-			this.campoExtencion.setText(this.usuario.getExtension());
-			this.campoExtencion.setDisable(true);
+			this.campoExtension.setText(this.usuario.getExtension());
+			this.campoExtension.setDisable(true);
 			this.comboStatus.setValue(this.usuario.getDescripcionStatus());
 			this.comboStatus.setDisable(true);
 			this.comboGrupoUsuario.setValue(this.usuario.getGrupoUsuario(this.conexion).getNombre());
@@ -136,7 +140,7 @@ public class DialogoUsuario {
 			} else if (this.campoTextoPIN.getText().isEmpty()) {
 				Notificacion.dialogoAlerta(AlertType.ERROR, "", "El campo \"Contraseña\" no puede estar vacio");
 				return false;
-			} else if (this.campoExtencion.getText().isEmpty()) {
+			} else if (this.campoExtension.getText().isEmpty()) {
 				Notificacion.dialogoAlerta(AlertType.ERROR, "", "El campo \"Extención\" no puede estar vacio");
 				return false;
 			}else if (this.comboGrupoUsuario.getSelectionModel().getSelectedItem().isEmpty()) {
@@ -153,8 +157,8 @@ public class DialogoUsuario {
 			} else if (this.campoTextoPIN.getText().isEmpty()) {
 				Notificacion.dialogoAlerta(AlertType.ERROR, "", "El campo \"Contraseña\" no puede estar vacio");
 				return false;
-			} else if (this.campoExtencion.getText().isEmpty()) {
-				Notificacion.dialogoAlerta(AlertType.ERROR, "", "El campo \"Extención\" no puede estar vacio");
+			} else if (this.campoExtension.getText().isEmpty()) {
+				Notificacion.dialogoAlerta(AlertType.ERROR, "", "El campo \"Extensión\" no puede estar vacio");
 				return false; 
 			}else if (this.comboGrupoUsuario.getSelectionModel().getSelectedItem().isEmpty()) {
 				Notificacion.dialogoAlerta(AlertType.ERROR, "", "El ComboBox \"Grupo de usuario\" no puede estar vacio");
@@ -173,7 +177,7 @@ public class DialogoUsuario {
 			if (this.opcion == CREAR) {
 				this.usuario.setUsuario(this.campoTextoNombreUsuario.getText());
 				this.usuario.setPin(this.campoTextoPIN.getText());
-				this.usuario.setExtension(this.campoExtencion.getText());
+				this.usuario.setExtension(this.campoExtension.getText());
 				if (comboStatus.getSelectionModel().getSelectedItem() == "Bloqueado")
 					this.usuario.setStatus(0);
 				if (comboStatus.getSelectionModel().getSelectedItem() == "Activo")
@@ -191,7 +195,7 @@ public class DialogoUsuario {
 			} else if (this.opcion == EDITAR) {
 				this.usuario.setUsuario(this.campoTextoNombreUsuario.getText());
 				this.usuario.setPin(this.campoTextoPIN.getText());
-				this.usuario.setExtension(this.campoExtencion.getText());
+				this.usuario.setExtension(this.campoExtension.getText());
 				if (comboStatus.getSelectionModel().getSelectedItem() == "Bloqueado")
 					this.usuario.setStatus(0);
 				if (comboStatus.getSelectionModel().getSelectedItem() == "Activo")
