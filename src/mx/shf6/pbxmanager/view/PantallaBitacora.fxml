@@ -58,7 +58,7 @@
                            <children>
                               <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
-                                    <Insets />
+                                    <Insets right="5.0" />
                                  </HBox.margin>
                                  <image>
                                     <Image url="@images/1x/BuscarIcono.png" />
@@ -72,6 +72,17 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </HBox>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#manejadorBotonExportarExcel" pickOnBounds="true" preserveRatio="true">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <image>
+                              <Image url="@images/1x/TodosButton.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
                         <Separator maxHeight="30.0" orientation="VERTICAL" prefHeight="30.0">
                            <HBox.margin>
                               <Insets right="5.0" />
@@ -102,7 +113,7 @@
             </HBox>
             <VBox alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
                <children>
-                  <TableView fx:id="tablaBitacora" editable="true" maxHeight="1.7976931348623157E308" styleClass="tablaDatosGestor" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tablaBitacora" maxHeight="1.7976931348623157E308" styleClass="tablaDatosGestor" VBox.vgrow="ALWAYS">
                      <columns>
                         <PTableColumn fx:id="columnaFecha" minWidth="-1.0" percentageWidth="0.05" prefWidth="-1.0" text="Fecha" />
                         <PTableColumn fx:id="columnaClid" minWidth="-1.0" percentageWidth="0.05882" prefWidth="-1.0" text="Clid" visible="false" />

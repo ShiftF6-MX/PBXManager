@@ -13,10 +13,13 @@
    <children>
       <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="48.0" styleClass="fondoCabeceraFormulario" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="etiquetaTituloFormulario" styleClass="labelRobotoMedium14" text="Formulario de registro" textFill="WHITE">
+            <Label fx:id="etiquetaTituloFormulario" onMouseClicked="#manejadorCopiarUniqueID" styleClass="labelRobotoMedium14" text="Formulario de registro" textFill="WHITE">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Label>
          </children>
       </VBox>

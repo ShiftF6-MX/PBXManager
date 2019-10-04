@@ -15,7 +15,7 @@ import mx.shf6.pbxmanager.utilities.Notificacion;
 public class BitacoraDAO {
 
 	//METODO PARA LEER LOS DATOS DE LA BD
-	public static ArrayList<Bitacora> leerTodos(Connection conexion, String status, Date fechaInicio, Date fechaFinal, String cdrOrigen, String numero){
+	public static ArrayList<Bitacora> readTodos(Connection conexion, String status, Date fechaInicio, Date fechaFinal, String cdrOrigen, String numero){
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		ArrayList<Bitacora> listaCDR = new ArrayList<Bitacora>();
 		String consulta = " SELECT calldate, clid, src, dst, dcontext, channel, dstchannel, lastapp, lastdata, duration, billsec, disposition, amaflags, uniqueid, cnum, cnam, comentario FROM cdr WHERE disposition LIKE'%" + status + "%' AND (calldate BETWEEN '" + simpleDateFormat.format(fechaInicio) + " 00:00:00" +"' AND '"+ simpleDateFormat.format(fechaFinal) + " 23:59:59" + "') AND src LIKE '%" + cdrOrigen + "%' AND dst LIKE '%" + numero + "%'";
@@ -49,6 +49,19 @@ public class BitacoraDAO {
 		return listaCDR;
 	}//FIN METODO
 	
+	//METODO PARA LEER LOS DATOS DE LA BD
+	public static ResultSet readTodosResultSet(Connection conexion, String status, Date fechaInicio, Date fechaFinal, String cdrOrigen, String numero){
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String consulta = "SELECT calldate AS Fecha, src AS Origen, cnam AS Usuario, dst AS Destino, duration AS Duracion, disposition AS Status, uniqueid AS UNIQUEID, comentario AS Comentarios FROM cdr WHERE disposition LIKE'%" + status + "%' AND (calldate BETWEEN '" + simpleDateFormat.format(fechaInicio) + " 00:00:00" +"' AND '"+ simpleDateFormat.format(fechaFinal) + " 23:59:59" + "') AND src LIKE '%" + cdrOrigen + "%' AND dst LIKE '%" + numero + "%'";
+		ResultSet resultados = null;
+		try {
+			Statement st = conexion.createStatement();
+			resultados = st.executeQuery(consulta);		
+		} catch (SQLException e) {
+			Notificacion.dialogoException(e);
+		}//FIN CATCH
+		return resultados;
+	}//FIN METODO
 	//METODO PARA MODIFICAR LOS DATOS DE LA BD
 	public static final boolean update(Connection connection, Bitacora cdr) {
 		String query = "UPDATE cdr SET comentario = ? WHERE uniqueid = ? ";

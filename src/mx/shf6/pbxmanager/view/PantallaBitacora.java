@@ -1,8 +1,14 @@
 package mx.shf6.pbxmanager.view;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -15,12 +21,22 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 import mx.shf6.pbxmanager.MainApp;
 import mx.shf6.pbxmanager.model.Bitacora;
 import mx.shf6.pbxmanager.model.GrupoUsuario;
 import mx.shf6.pbxmanager.model.dao.BitacoraDAO;
+import mx.shf6.pbxmanager.model.dao.Seguridad;
 import mx.shf6.pbxmanager.utilities.Notificacion;
 import mx.shf6.pbxmanager.utilities.PTableColumn;
 
@@ -33,6 +49,11 @@ public class PantallaBitacora  extends Thread{
 	private ArrayList<Bitacora> listaBitacora;
 	private String extensionOrigen;
 	private Boolean opcion;
+	private File file;
+	
+	//VARIABLES
+	private String RUTA = "resources/";
+	private String status;
 		
 	//COMPONENTES DE LA INTERFAZ
 	@FXML private MenuButton botonMenuStatus;
@@ -172,11 +193,11 @@ public class PantallaBitacora  extends Thread{
 		//this.tablaBitacora.setItems(null);
 		this.listaBitacora.clear();
 		
-		String status = this.botonMenuStatus.getText();
+		status = this.botonMenuStatus.getText();
 		if (status.equals("TODOS"))
 			status = "";
 		
-		this.listaBitacora = BitacoraDAO.leerTodos(this.conexion, status, Date.valueOf(this.datePickerFechaInicio.getValue()), Date.valueOf(this.datePickerFechaFinal.getValue()), extensionOrigen, this.campoTextoBuscar.getText());
+		this.listaBitacora = BitacoraDAO.readTodos(this.conexion, status, Date.valueOf(this.datePickerFechaInicio.getValue()), Date.valueOf(this.datePickerFechaFinal.getValue()), extensionOrigen, this.campoTextoBuscar.getText());
 		this.tablaBitacora.setItems(FXCollections.observableArrayList(listaBitacora));
 	}// FIN METODO
 	
@@ -207,6 +228,85 @@ public class PantallaBitacora  extends Thread{
 		}//FIN TRY-CATCH
 	}//FIN METODO
 	
+	private void exportarExcel() throws SQLException {
+		ResultSet resultados = BitacoraDAO.readTodosResultSet(this.conexion, status, Date.valueOf(this.datePickerFechaInicio.getValue()), Date.valueOf(this.datePickerFechaFinal.getValue()), extensionOrigen, this.campoTextoBuscar.getText());
+		this.file = new File (this.RUTA + resultados.getMetaData().getTableName(1) + ".xls");
+		int row = 0;
+		//FORMATO FUENTE DEL CONTENIDO
+		WritableFont fuente = new WritableFont( WritableFont.ARIAL, 8, WritableFont.NO_BOLD );
+		WritableCellFormat formatoCelda = new WritableCellFormat(fuente);
+		
+		WritableFont fTitulo = new WritableFont( WritableFont.ARIAL, 9, WritableFont.BOLD );
+		WritableCellFormat formatoCelda2 = new WritableCellFormat(fTitulo);
+		
+		//INTERFAZ PARA LA HOJA DE CALCULO
+		WritableSheet hojaExcel =  null;
+		WritableWorkbook libro = null;
+		
+		//CONFIGURACION PARA GENERAR LA HOJA DE CALCULO
+		WorkbookSettings configuracion = new WorkbookSettings();
+		configuracion.setLocale(new Locale("es", "MX"));
+		
+		try {
+			libro = Workbook.createWorkbook(file, configuracion);
+			//HOJA CON NOMBRE DE LA TABLA
+			libro.createSheet("Consulta", 0);
+			hojaExcel = libro.getSheet(0);
+			
+				
+			try {
+				Label fechaTitulo = new Label(1, 0, "Fecha", formatoCelda2);
+				Label origenTitulo = new Label(2, 0, "Origen", formatoCelda2);
+				Label usuarioTitulo = new Label(3, 0, "Usuario", formatoCelda2);
+				Label destinoTitulo = new Label(4, 0, "Destino", formatoCelda2);
+				Label duracionTitulo = new Label(5, 0, "Tiempo (s)", formatoCelda2);
+				Label statusTitulo = new Label(6, 0, "Status", formatoCelda2);
+				Label idTitulo = new Label(7, 0, "UNIQ ID", formatoCelda2);
+				Label comentarioTitulo = new Label(8, 0, "Comentarios", formatoCelda2);
+				try {
+					hojaExcel.addCell(fechaTitulo);
+					hojaExcel.addCell(origenTitulo);
+					hojaExcel.addCell(usuarioTitulo);
+					hojaExcel.addCell(destinoTitulo);
+					hojaExcel.addCell(duracionTitulo);
+					hojaExcel.addCell(statusTitulo);
+					hojaExcel.addCell(idTitulo);
+					hojaExcel.addCell(comentarioTitulo);
+				}catch (WriteException ex) {
+					Notificacion.dialogoException(ex);
+				}//FIN TRY-CATCH
+				
+			
+				while (resultados.next()) {
+					for (int i = 1; i <= resultados.getMetaData().getColumnCount(); i++) {
+						Label registro = new Label (i, row + 1, resultados.getString(i), formatoCelda);
+						try {
+							hojaExcel.addCell(registro);
+						}catch (WriteException ex) {
+						Notificacion.dialogoException(ex);
+						}//FIN TRY-CATCH
+					}//FIN FOR
+					row ++;
+				}//FIN WHILE
+				resultados.close();
+			}catch (SQLException ex) {
+				Notificacion.dialogoException(ex);
+			}//FIN TRY/CATCH
+		
+			//GUARDANDO EN LA RUTA
+			try {
+				libro.write();
+				libro.close();
+				Desktop.getDesktop().open(file);
+			}catch (WriteException ex) {
+				Notificacion.dialogoException(ex);
+			}//FIN TRY-CATCH
+		
+		}catch (IOException ex) {
+			Notificacion.dialogoAlerta(AlertType.WARNING, "", "EL archivo se encuentra actualmente abierto, ciérralo para poder exportar");
+		}//FIN TRY-CATCH
+	}//FIN METODO
+	
 	//MANEJADORES
 	
 	@FXML private void manejadorBotonBuscar() {
@@ -220,5 +320,16 @@ public class PantallaBitacora  extends Thread{
 	@FXML private void manejadorBotonCerrar() {
 		this.mainApp.openPantallaMenu();
 	}//FIN METODO
+	
+	@FXML private void manejadorBotonExportarExcel() {
+		if(Seguridad.verificarAcceso(mainApp.getConnection(), mainApp.getUsuario().getGrupoUsuarioFK(), "cReporte")) {
+			try {
+				this.exportarExcel();
+			} catch (SQLException ex) {
+				Notificacion.dialogoException(ex);
+			}//FIN TRY-CATCH
+		}else
+			Notificacion.dialogoAlerta(AlertType.WARNING, "Error", "No tienes permiso para realizar esta acción.");		
+	}//FIN MANEJADOR
 	
 }//FIN CLASE

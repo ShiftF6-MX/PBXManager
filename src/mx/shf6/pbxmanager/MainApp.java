@@ -212,7 +212,7 @@ public class MainApp extends Application {
 			Notificacion.dialogoException(ex);
 		}//FIN TRY/CATCH
 	}//FIN METODO
-	
+			
 	public void openDialogoIngresarBitacora() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
