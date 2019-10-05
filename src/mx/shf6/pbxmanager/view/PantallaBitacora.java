@@ -207,7 +207,7 @@ public class PantallaBitacora  extends Thread{
 			while(this.opcion) {
 				updateTabla();
 				for(Bitacora cdr : this.listaBitacora) {
-					if (/*cdr.getSRC().equals("200") && */cdr.getDisposition().equals("ANSWERED") && cdr.getComentario().equals("")) {
+					if ((cdr.getDisposition().equals(Bitacora.CONTESTADO) || cdr.getDisposition().equals(Bitacora.NO_CONTESTADO) || cdr.getDisposition().equals(Bitacora.OCUPADO)) && cdr.getComentario().equals("")) {
 						Platform.runLater(() -> {
 							cdr.setComentario(this.mainApp.openDialogoComentarios(cdr));
 							if (BitacoraDAO.update(this.conexion, cdr)) {
