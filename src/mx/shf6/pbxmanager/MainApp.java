@@ -258,7 +258,7 @@ public class MainApp extends Application {
 			this.escenarioDos.setScene(escenaDialogoComentarios);
 			
 			DialogoComentarios dialogoComentarios = fxmlLoader.getController();
-			dialogoComentarios.setMainApp(this, bitacora.getUniqueid());
+			dialogoComentarios.setMainApp(this, bitacora.getUniqueid(), bitacora.getDst());
 			this.escenarioDos.showAndWait();
 			return dialogoComentarios.getComentarios();
 		} catch (IOException | IllegalStateException ex) {

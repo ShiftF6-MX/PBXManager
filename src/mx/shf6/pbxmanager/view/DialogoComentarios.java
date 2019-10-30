@@ -22,10 +22,10 @@ public class DialogoComentarios {
 		this.areaTextoComentarios.clear();
 	}//FIN METODO
 	
-	public void setMainApp(MainApp mainApp, String unicoID) {
+	public void setMainApp(MainApp mainApp, String unicoID, String destino) {
 		this.mainApp = mainApp;
 		this.unicoID = unicoID;
-		this.etiquetaTituloFormulario.setText("CALL ID: " + unicoID);
+		this.etiquetaTituloFormulario.setText("CALL ID: " + unicoID + " | DESTINO: " + destino);
 	}//FIN METODO
 	
 	public String getComentarios() {
