@@ -8,6 +8,7 @@ import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
@@ -16,7 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.stage.StageStyle;
 
 public class Notificacion {
-    
+	
     public static void dialogoException(Exception ex) {
     	Toolkit.getDefaultToolkit().beep();
         Alert alert = new Alert(AlertType.ERROR);
@@ -89,4 +90,20 @@ public class Notificacion {
         return result.get() == ButtonType.OK;
     }//END METHOD
     
+    
+    public static void dialogoRespaldo(String titulo, String mensaje) {
+    	Toolkit.getDefaultToolkit().beep();
+    	ChoiceDialog<String> alert = new ChoiceDialog<String>();
+    	alert.getItems().add("Respaldo Local");
+    	alert.setSelectedItem("Respaldo Local");
+    	alert.initStyle(StageStyle.UTILITY);
+        alert.setTitle("Alerta del Sistema");
+        alert.setHeaderText(titulo);
+        alert.setContentText(mensaje);
+        Optional<String> resultado = alert.showAndWait();
+        if(resultado.isPresent()) {
+        	if (resultado.get().equals("Respaldo Local")) 
+        		LeerArchivo.leerArchivo("C:\\GestionPBX\\Respaldo\\RespaldoLocal.dat");
+        }//FIN IF
+    }//END METHOD
 }//END CLASS

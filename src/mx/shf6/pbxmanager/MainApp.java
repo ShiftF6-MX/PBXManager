@@ -79,13 +79,20 @@ public class MainApp extends Application {
 	}//FIN METODO
 
 	private void configConexionBD() {
-		LeerArchivo.leerArchivo();
+		LeerArchivo.leerArchivo("C:\\GestionPBX\\Config\\ConnectionData.dat");
 		this.conexionDB = new ConnectionDB(LeerArchivo.nameDB, LeerArchivo.hostDB, LeerArchivo.userDB, LeerArchivo.passwordDB);
 		this.conexion = conexionDB.conectarMySQL();
-		if (this.conexion == null) {
-			Notificacion.dialogoAlerta(AlertType.ERROR, "Conectar base de datos", "Error al conectar con la base de datos");
-			System.exit(0);
-		}//FIN IF
+		if (this.conexion == null) 
+			if (Notificacion.dialogoPreguntar("Error al conectar con la base de datos", "¿Desea conectar con otra base de datos?")) {
+				Notificacion.dialogoRespaldo("", "Elije el respaldo:");
+				this.conexionDB = new ConnectionDB(LeerArchivo.nameDB, LeerArchivo.hostDB, LeerArchivo.userDB, LeerArchivo.passwordDB);
+				this.conexion = conexionDB.conectarMySQL();
+				if (this.conexion == null) {
+					Notificacion.dialogoAlerta(AlertType.ERROR, "Conectar base de datos", "Error al conectar con la base de datos");
+					System.exit(0);
+				}
+			} else
+				System.exit(0);
 	}//FIN METODO	
 
 	public Connection getConnection() {

@@ -17,9 +17,9 @@ public class LeerArchivo {
     public static String passwordDB;
     public static String claveEquipo;
     
-    public static void leerArchivo(){
+    public static void leerArchivo(String connectionData){
         try {
-            LeerArchivo.content = Files.readAllLines(Paths.get("C:\\GestionPBX\\Config\\ConnectionData.dat"));
+            LeerArchivo.content = Files.readAllLines(Paths.get(connectionData));
             LeerArchivo.nameDB = content.get(2);
             LeerArchivo.hostDB = content.get(4);
             LeerArchivo.userDB = content.get(6);
